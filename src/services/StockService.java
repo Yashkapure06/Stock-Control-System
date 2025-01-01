@@ -1,5 +1,6 @@
 package services;
 
+
 import models.Stock;
 import repositories.StockRepository;
 
@@ -27,3 +28,4 @@ public class StockService {
         });
     }
 }
+
