@@ -53,10 +53,12 @@ public class StockControlApplication {
                         System.out.println("Stock not found.");
                     }
                     break;
+                    
                 case 3:
                     System.out.println("All Stocks:");
                     repository.getAllStocks().forEach(System.out::println);
                     break;
+                    
                 case 4:
                     System.out.printf("Total Inventory Value: $%.2f\n", service.calculateTotalInventoryValue());
                     break;
@@ -65,14 +67,6 @@ public class StockControlApplication {
                     System.out.println("Exiting...");
                     break;
  
-
-                case 4:
-                    System.out.printf("Total Inventory Value: $%.2f\n", service.calculateTotalInventoryValue());
-                    break;
-
-                case 5:
-                    System.out.println("Exiting...");
-                    break;
                 default:
                     System.out.println("Invalid choice.");
             }
