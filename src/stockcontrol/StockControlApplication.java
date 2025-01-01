@@ -13,6 +13,7 @@ public class StockControlApplication {
         StockRepository repository = new StockRepository();
         StockService service = new StockService(repository);
 
+
         int choice;
 
         do {
@@ -36,6 +37,7 @@ public class StockControlApplication {
                     System.out.print("Enter category: ");
                     String category = input.nextLine();
 
+
                     repository.addStock(new Stock(name, quantity, price, category));
                     System.out.println("Stock added successfully.");
                     break;
@@ -51,11 +53,18 @@ public class StockControlApplication {
                         System.out.println("Stock not found.");
                     }
                     break;
-
                 case 3:
                     System.out.println("All Stocks:");
                     repository.getAllStocks().forEach(System.out::println);
                     break;
+                case 4:
+                    System.out.printf("Total Inventory Value: $%.2f\n", service.calculateTotalInventoryValue());
+                    break;
+ 
+                case 5:
+                    System.out.println("Exiting...");
+                    break;
+ 
 
                 case 4:
                     System.out.printf("Total Inventory Value: $%.2f\n", service.calculateTotalInventoryValue());
@@ -64,12 +73,10 @@ public class StockControlApplication {
                 case 5:
                     System.out.println("Exiting...");
                     break;
-
                 default:
                     System.out.println("Invalid choice.");
             }
         } while (choice != 5);
-
-        input.close();
+    input.close();
     }
 }
