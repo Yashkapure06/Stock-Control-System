@@ -1,7 +1,10 @@
 package stockcontrol;
 
 import models.Stock;
+import models.User;
 import repositories.StockRepository;
+import repositories.UserRepository;
+import services.AuthService;
 import services.StockService;
 import utils.ValidationUtil;
 
@@ -9,12 +12,37 @@ import java.util.Scanner;
 
 public class StockControlApplication {
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        StockRepository repository = new StockRepository();
-        StockService service = new StockService(repository);
+    	 Scanner input = new Scanner(System.in);
+         UserRepository userRepository = new UserRepository();
+         AuthService authService = new AuthService(userRepository);
+
+         User loggedInUser = null;
+
+         while (loggedInUser == null) {
+             System.out.println("\n1. Login\n2. Register\nEnter your choice: ");
+             int choice = input.nextInt();
+             input.nextLine();
+
+             switch (choice) {
+                 case 1:
+                     loggedInUser = authService.login(input);
+                     break;
+                 case 2:
+                     loggedInUser = authService.register(input);
+                     break;
+                 default:
+                     System.out.println("Invalid choice.");
+             }
+         }
+
+         System.out.println("\nWelcome, " + loggedInUser.getUsername() + "!");
+
 
 
         int choice;
+
+        StockService stockService = new StockService();
+        String username = loggedInUser.getUsername();
 
         do {
             System.out.println("\nMenu:");
@@ -22,53 +50,53 @@ public class StockControlApplication {
             System.out.println("2. Remove stock");
             System.out.println("3. View stock");
             System.out.println("4. Calculate total inventory value");
-            System.out.println("5. Exit");
-            choice = ValidationUtil.validateIntegerInput(input, "Enter your choice: ");
+            System.out.println("5. Logout");
+            System.out.print("Enter your choice: ");
+            choice = input.nextInt();
+
+            input.nextLine();
 
             switch (choice) {
                 case 1:
-                    input.nextLine();
                     System.out.print("Enter stock name: ");
                     String name = input.nextLine();
-                    int quantity = ValidationUtil.validateIntegerInput(input, "Enter quantity: ");
-                    System.out.print("Enter price: ");
+                    System.out.print("Enter stock quantity: ");
+                    int quantity = input.nextInt();
+                    System.out.print("Enter stock price: ");
                     double price = input.nextDouble();
-                    input.nextLine();
-                    System.out.print("Enter category: ");
+                    input.nextLine(); // Clear newline
+                    System.out.print("Enter stock category: ");
                     String category = input.nextLine();
 
-
-                    repository.addStock(new Stock(name, quantity, price, category));
-                    System.out.println("Stock added successfully.");
+                    Stock newStock = new Stock(name, quantity, price, category);
+                    stockService.addStockForUser(username, newStock);
+                    System.out.println("Stock added successfully!");
                     break;
 
                 case 2:
-                    input.nextLine();
                     System.out.print("Enter stock name to remove: ");
                     String removeName = input.nextLine();
-                    int removeQuantity = ValidationUtil.validateIntegerInput(input, "Enter quantity to remove: ");
-                    if (repository.removeStock(removeName, removeQuantity)) {
-                        System.out.println("Stock updated.");
-                    } else {
-                        System.out.println("Stock not found.");
-                    }
+                    stockService.removeStockForUser(username, removeName);
+                    System.out.println("Stock removed successfully!");
                     break;
-                    
+
                 case 3:
-                    System.out.println("All Stocks:");
-                    repository.getAllStocks().forEach(System.out::println);
+                    System.out.println("Your Stocks:");
+                    stockService.getStocksForUser(username).forEach(System.out::println);
                     break;
-                    
+
                 case 4:
-                    System.out.printf("Total Inventory Value: $%.2f\n", service.calculateTotalInventoryValue());
+                    double totalValue = stockService.calculateTotalValueForUser(username);
+                    System.out.printf("Total inventory value: $%.2f\n", totalValue);
                     break;
- 
+
                 case 5:
-                    System.out.println("Exiting...");
+                    System.out.println("Logging out...");
                     break;
- 
+
                 default:
-                    System.out.println("Invalid choice.");
+                    System.out.println("Invalid choice!");
+                    break;
             }
         } while (choice != 5);
     input.close();
