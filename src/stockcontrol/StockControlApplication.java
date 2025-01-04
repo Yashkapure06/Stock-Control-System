@@ -2,45 +2,41 @@ package stockcontrol;
 
 import models.Stock;
 import models.User;
-import repositories.StockRepository;
 import repositories.UserRepository;
 import services.AuthService;
 import services.StockService;
-import utils.ValidationUtil;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class StockControlApplication {
     public static void main(String[] args) {
-    	 Scanner input = new Scanner(System.in);
-         UserRepository userRepository = new UserRepository();
-         AuthService authService = new AuthService(userRepository);
+        Scanner input = new Scanner(System.in);
+        UserRepository userRepository = new UserRepository();
+        AuthService authService = new AuthService(userRepository);
 
-         User loggedInUser = null;
+        User loggedInUser = null;
 
-         while (loggedInUser == null) {
-             System.out.println("\n1. Login\n2. Register\nEnter your choice: ");
-             int choice = input.nextInt();
-             input.nextLine();
+        while (loggedInUser == null) {
+            System.out.println("\n1. Login\n2. Register\nEnter your choice: ");
+            int choice = input.nextInt();
+            input.nextLine();
 
-             switch (choice) {
-                 case 1:
-                     loggedInUser = authService.login(input);
-                     break;
-                 case 2:
-                     loggedInUser = authService.register(input);
-                     break;
-                 default:
-                     System.out.println("Invalid choice.");
-             }
-         }
+            switch (choice) {
+                case 1:
+                    loggedInUser = authService.login(input);
+                    break;
+                case 2:
+                    loggedInUser = authService.register(input);
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
 
-         System.out.println("\nWelcome, " + loggedInUser.getUsername() + "!");
-
-
+        System.out.println("\nWelcome, " + loggedInUser.getUsername() + "!");
 
         int choice;
-
         StockService stockService = new StockService();
         String username = loggedInUser.getUsername();
 
@@ -50,10 +46,10 @@ public class StockControlApplication {
             System.out.println("2. Remove stock");
             System.out.println("3. View stock");
             System.out.println("4. Calculate total inventory value");
-            System.out.println("5. Logout");
+            System.out.println("5. Search or filter stocks");
+            System.out.println("6. Logout");
             System.out.print("Enter your choice: ");
             choice = input.nextInt();
-
             input.nextLine();
 
             switch (choice) {
@@ -64,7 +60,7 @@ public class StockControlApplication {
                     int quantity = input.nextInt();
                     System.out.print("Enter stock price: ");
                     double price = input.nextDouble();
-                    input.nextLine(); // Clear newline
+                    input.nextLine();
                     System.out.print("Enter stock category: ");
                     String category = input.nextLine();
 
@@ -89,8 +85,11 @@ public class StockControlApplication {
                     double totalValue = stockService.calculateTotalValueForUser(username);
                     System.out.printf("Total inventory value: £%.2f\n", totalValue);
                     break;
-
                 case 5:
+                	stockService.handleSearchOrFilter(input, stockService, username);
+                    break;
+
+                case 6:
                     System.out.println("Logging out...");
                     break;
 
@@ -98,7 +97,7 @@ public class StockControlApplication {
                     System.out.println("Invalid choice!");
                     break;
             }
-        } while (choice != 5);
-    input.close();
+        } while (choice != 6);
+        input.close();
     }
 }
