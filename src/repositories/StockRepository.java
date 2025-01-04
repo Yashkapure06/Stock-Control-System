@@ -8,7 +8,8 @@ public class StockRepository {
     private final List<Stock> stocks = new ArrayList<>();
     private final Map<String, List<Stock>> categoryMap = new HashMap<>();
 
-    public void addStock(Stock stock) {
+
+	public void addStock(Stock stock) {
         stocks.add(stock);
         categoryMap.computeIfAbsent(stock.getCategory(), k -> new ArrayList<>()).add(stock);
     }

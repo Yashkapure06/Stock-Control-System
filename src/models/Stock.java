@@ -6,6 +6,12 @@ public class Stock {
     private final double price;
     private final String category;
     
+	public Stock() {
+		this.name = "";
+		this.quantity = 0;
+		this.price = 0.0;
+		this.category = "";
+	}
     
 	public Stock(String name, int quantity, double price, String category) {
 		this.name = name;
