@@ -234,6 +234,29 @@ public class StockService {
                 break;
         }
     }
+    public boolean updateStockForUser(String username, String stockName, int newQuantity, double newPrice, String newCategory) {
+        UserStocks userStock = allUserStocks.stream()
+                .filter(us -> us.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
+
+        if (userStock != null) {
+            Stock stockToUpdate = userStock.getStocks().stream()
+                    .filter(stock -> stock.getName().equalsIgnoreCase(stockName))
+                    .findFirst()
+                    .orElse(null);
+            if (stockToUpdate != null) {
+                stockToUpdate.setQuantity(newQuantity); // Update quantity
+                stockToUpdate.setPrice(newPrice); // Update price
+                stockToUpdate.setCategory(newCategory); // Update category
+
+                saveAllUserStocks(); // Save changes to the JSON file
+                return true;
+            }
+
+        }
+        return false;
+    }
 
     
     

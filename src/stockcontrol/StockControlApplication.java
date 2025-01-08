@@ -47,7 +47,8 @@ public class StockControlApplication {
             System.out.println("3. View stock");
             System.out.println("4. Calculate total inventory value");
             System.out.println("5. Search or filter stocks");
-            System.out.println("6. Logout");
+            System.out.println("6. Update stock");
+            System.out.println("7. Logout");
             System.out.print("Enter your choice: ");
             choice = input.nextInt();
             input.nextLine();
@@ -88,8 +89,27 @@ public class StockControlApplication {
                 case 5:
                 	stockService.handleSearchOrFilter(input, stockService, username);
                     break;
+                case 6:  // Add case for updating stock
+                    System.out.print("Enter stock name to update: ");
+                    String updateName = input.nextLine();
+                    System.out.print("Enter new quantity: ");
+                    int newQuantity = input.nextInt();
+                    System.out.print("Enter new price: ");
+                    double newPrice = input.nextDouble();
+                    input.nextLine();  // Clear newline
+                    System.out.print("Enter new category: ");
+                    String newCategory = input.nextLine();
 
-                case 6:
+                    boolean updated = stockService.updateStockForUser(username, updateName, newQuantity, newPrice, newCategory);
+                    if (updated) {
+                        System.out.println("Stock updated successfully!");
+                    } else {
+                        System.out.println("Stock not found or update failed.");
+                    }
+                    break;
+
+
+                case 7:
                     System.out.println("Logging out...");
                     break;
 
@@ -97,7 +117,7 @@ public class StockControlApplication {
                     System.out.println("Invalid choice!");
                     break;
             }
-        } while (choice != 6);
+        } while (choice != 7);
         input.close();
     }
 }
