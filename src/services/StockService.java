@@ -106,6 +106,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class StockService {
+	//This is Harsh Path:
     private static final String STOCKS_FILE = "C:\\Users\\acer\\eclipse-workspace\\Stock-Control-System\\src\\resources\\stocks.json";
     private final ObjectMapper objectMapper;
     private List<UserStocks> allUserStocks;
@@ -234,29 +235,96 @@ public class StockService {
                 break;
         }
     }
-    public boolean updateStockForUser(String username, String stockName, int newQuantity, double newPrice, String newCategory) {
-        UserStocks userStock = allUserStocks.stream()
-                .filter(us -> us.getUsername().equals(username))
-                .findFirst()
-                .orElse(null);
+	/*
+	 * public boolean updateStockForUser(String username, String stockName, int
+	 * newQuantity, double newPrice, String newCategory) { UserStocks userStock =
+	 * allUserStocks.stream() .filter(us -> us.getUsername().equals(username))
+	 * .findFirst() .orElse(null);
+	 * 
+	 * if (userStock != null) { Stock stockToUpdate = userStock.getStocks().stream()
+	 * .filter(stock -> stock.getName().equalsIgnoreCase(stockName)) .findFirst()
+	 * .orElse(null); if (stockToUpdate != null) {
+	 * stockToUpdate.setQuantity(newQuantity); // Update quantity
+	 * stockToUpdate.setPrice(newPrice); // Update price
+	 * stockToUpdate.setCategory(newCategory); // Update category
+	 * 
+	 * saveAllUserStocks(); // Save changes to the JSON file return true; }
+	 * 
+	 * } return false; }
+	 */
+    
+    public void updateStock(Scanner input, String username) {
+        List<Stock> userStocks = getStocksForUser(username);
 
-        if (userStock != null) {
-            Stock stockToUpdate = userStock.getStocks().stream()
-                    .filter(stock -> stock.getName().equalsIgnoreCase(stockName))
-                    .findFirst()
-                    .orElse(null);
-            if (stockToUpdate != null) {
-                stockToUpdate.setQuantity(newQuantity); // Update quantity
-                stockToUpdate.setPrice(newPrice); // Update price
-                stockToUpdate.setCategory(newCategory); // Update category
-
-                saveAllUserStocks(); // Save changes to the JSON file
-                return true;
-            }
-
+        if (userStocks.isEmpty()) {
+            System.out.println("No stocks available to update.");
+            return;
         }
-        return false;
+
+        // List all stocks
+        System.out.println("Your Stocks:");
+        for (int i = 0; i < userStocks.size(); i++) {
+            System.out.printf("%d. %s (Quantity: %d, Price: £%.2f, Category: %s)\n",
+                    i + 1,
+                    userStocks.get(i).getName(),
+                    userStocks.get(i).getQuantity(),
+                    userStocks.get(i).getPrice(),
+                    userStocks.get(i).getCategory());
+        }
+
+        // Ask user to choose a stock
+        System.out.print("Enter the number of the stock you want to update: ");
+        int stockIndex = input.nextInt() - 1;
+        input.nextLine(); // Consume newline
+
+        if (stockIndex < 0 || stockIndex >= userStocks.size()) {
+            System.out.println("Invalid selection. Returning to menu.");
+            return;
+        }
+
+        Stock selectedStock = userStocks.get(stockIndex);
+
+        // Update quantity
+        System.out.print("Do you want to add or subtract quantity? (Enter 'add' or 'subtract'): ");
+        String quantityAction = input.nextLine().toLowerCase();
+
+        if (quantityAction.equals("add") || quantityAction.equals("subtract")) {
+            System.out.print("Enter the amount: ");
+            int quantity = input.nextInt();
+            input.nextLine(); // Consume newline
+
+            if (quantityAction.equals("add")) {
+                selectedStock.addQuantity(quantity);
+                System.out.println("Quantity added successfully.");
+            } else {
+                selectedStock.removeQuantity(quantity);
+                System.out.println("Quantity subtracted successfully.");
+            }
+        }
+
+        // Update price
+        System.out.print("Enter the new price (or press Enter to skip): ");
+        String newPriceInput = input.nextLine();
+        if (!newPriceInput.isEmpty()) {
+            double newPrice = Double.parseDouble(newPriceInput);
+            selectedStock.setPrice(newPrice);
+            System.out.println("Price updated successfully.");
+        }
+
+        // Update category
+        System.out.print("Enter the new category (or press Enter to skip): ");
+        String newCategory = input.nextLine();
+        if (!newCategory.isEmpty()) {
+            selectedStock.setCategory(newCategory);
+            System.out.println("Category updated successfully.");
+        }
+
+        // Save the updates
+        saveAllUserStocks();
+        System.out.println("Stock updated successfully!");
     }
+
+
 
     
     

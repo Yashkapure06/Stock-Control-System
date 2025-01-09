@@ -89,24 +89,25 @@ public class StockControlApplication {
                 case 5:
                 	stockService.handleSearchOrFilter(input, stockService, username);
                     break;
-                case 6:  // Add case for updating stock
-                    System.out.print("Enter stock name to update: ");
-                    String updateName = input.nextLine();
-                    System.out.print("Enter new quantity: ");
-                    int newQuantity = input.nextInt();
-                    System.out.print("Enter new price: ");
-                    double newPrice = input.nextDouble();
-                    input.nextLine();  // Clear newline
-                    System.out.print("Enter new category: ");
-                    String newCategory = input.nextLine();
-
-                    boolean updated = stockService.updateStockForUser(username, updateName, newQuantity, newPrice, newCategory);
-                    if (updated) {
-                        System.out.println("Stock updated successfully!");
-                    } else {
-                        System.out.println("Stock not found or update failed.");
-                    }
+				/*
+				 * case 6: // Add case for updating stock
+				 * System.out.print("Enter stock name to update: "); String updateName =
+				 * input.nextLine(); System.out.print("Enter new quantity: "); int newQuantity =
+				 * input.nextInt(); System.out.print("Enter new price: "); double newPrice =
+				 * input.nextDouble(); input.nextLine(); // Clear newline
+				 * System.out.print("Enter new category: "); String newCategory =
+				 * input.nextLine();
+				 * 
+				 * boolean updated = stockService.updateStockForUser(username, updateName,
+				 * newQuantity, newPrice, newCategory); if (updated) {
+				 * System.out.println("Stock updated successfully!"); } else {
+				 * System.out.println("Stock not found or update failed."); } break;
+				 */
+                    
+                case 6:
+                    stockService.updateStock(input, username);
                     break;
+
 
 
                 case 7:

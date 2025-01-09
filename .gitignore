@@ -10,6 +10,7 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+temp_auto_push.bat
 # Package Files #
 *.jar
 *.war
@@ -23,3 +24,5 @@
 hs_err_pid*
 replay_pid*
 /bin/
+.gitignore
+branch_structure.json

@@ -53,11 +53,12 @@
 package models;
 
 public class Stock {
-    private final String name; // Immutable
-    private int quantity; // Mutable
-    private double price; // Mutable
-    private String category; // Mutable
+    private final String name;
+    private int quantity;
+    private double price; // Removed final to allow updates
+    private String category; // Removed final to allow updates
 
+    // Default constructor
     public Stock() {
         this.name = "";
         this.quantity = 0;
@@ -65,6 +66,7 @@ public class Stock {
         this.category = "";
     }
 
+    // Parameterized constructor
     public Stock(String name, int quantity, double price, String category) {
         this.name = name;
         this.quantity = quantity;
@@ -89,28 +91,12 @@ public class Stock {
         return category;
     }
 
-    // Setters
-    public void setQuantity(int quantity) {
-        if (quantity >= 0) { // Optional validation
-            this.quantity = quantity;
-        } else {
-            System.out.println("Quantity cannot be negative.");
-        }
+    // Add quantity to stock
+    public void addQuantity(int quantityToAdd) {
+        quantity += quantityToAdd;
     }
 
-    public void setPrice(double price) {
-        if (price >= 0) { // Optional validation
-            this.price = price;
-        } else {
-            System.out.println("Price cannot be negative.");
-        }
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    // Quantity adjustment methods
+    // Remove quantity from stock
     public void removeQuantity(int quantityToRemove) {
         if (quantityToRemove <= quantity) {
             quantity -= quantityToRemove;
@@ -119,13 +105,28 @@ public class Stock {
         }
     }
 
-    public void addQuantity(int quantityToAdd) {
-        quantity += quantityToAdd;
+    // Setter for price
+    public void setPrice(double price) {
+        if (price >= 0) {
+            this.price = price;
+        } else {
+            System.out.println("Price cannot be negative.");
+        }
+    }
+
+    // Setter for category
+    public void setCategory(String category) {
+        if (category != null && !category.isEmpty()) {
+            this.category = category;
+        } else {
+            System.out.println("Category cannot be empty.");
+        }
     }
 
     @Override
     public String toString() {
-        return "Stock [name=" + name + ", quantity=" + quantity + ", price=" + price + ", category=" + category + "]";
+        return "Stock [name=" + name + ", quantity=" + quantity + ", price=£" + price + ", category=" + category + "]";
     }
 }
+
 
