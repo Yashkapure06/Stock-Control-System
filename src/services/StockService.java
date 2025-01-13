@@ -97,10 +97,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Stock;
 import models.UserStocks;
+import models.PurchaseOrder;
+import repositories.PurchaseOrderRepository;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -110,10 +113,12 @@ public class StockService {
     private static final String STOCKS_FILE = "C:\\Users\\acer\\eclipse-workspace\\Stock-Control-System\\src\\resources\\stocks.json";
     private final ObjectMapper objectMapper;
     private List<UserStocks> allUserStocks;
+    private final PurchaseOrderRepository purchaseOrderRepository;
 
-    public StockService() {
+    public StockService(PurchaseOrderRepository purchaseOrderRepository) {
         this.objectMapper = new ObjectMapper();
         this.allUserStocks = loadAllUserStocks();
+        this.purchaseOrderRepository = purchaseOrderRepository;
     }
 
     private List<UserStocks> loadAllUserStocks() {
@@ -137,6 +142,43 @@ public class StockService {
         } catch (IOException e) {
             System.out.println("Error saving stocks: " + e.getMessage());
         }
+    }
+
+    public void updateStockAndCheck(String username, String stockId, int changeInQuantity) {
+        UserStocks userStock = allUserStocks.stream()
+                .filter(us -> us.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
+
+        if (userStock == null) {
+            System.out.println("User does not exist!");
+            return;
+        }
+
+        Stock stockToUpdate = userStock.getStocks().stream()
+                .filter(stock -> stock.getItemId().equals(stockId))
+                .findFirst()
+                .orElse(null);
+
+        if (stockToUpdate == null) {
+            System.out.println("Stock does not exist!");
+            return;
+        }
+
+        stockToUpdate.setQuantity(stockToUpdate.getQuantity() + changeInQuantity);
+
+        if (stockToUpdate.getQuantity() < stockToUpdate.getMinimumStock()) {
+            generatePurchaseOrder(stockToUpdate);
+        }
+
+        saveAllUserStocks();
+    }
+
+    private void generatePurchaseOrder(Stock stock) {
+        int quantityToOrder = stock.getMinimumStock() - stock.getQuantity();
+        PurchaseOrder order = new PurchaseOrder(stock.getItemId(), quantityToOrder, new Date());
+        purchaseOrderRepository.save(order);
+        System.out.println("Purchase order generated for stock: " + stock.getItemName());
     }
 
     public List<Stock> getStocksForUser(String username) {
@@ -192,11 +234,7 @@ public class StockService {
                 .filter(stock -> stock.getCategory().equalsIgnoreCase(category))
                 .collect(Collectors.toList());
     }
-    
-    
-    
-    
-    
+
     public static void handleSearchOrFilter(Scanner input, StockService stockService, String username) {
         System.out.println("\nSearch or Filter Stocks:");
         System.out.println("1. Search by name");
@@ -235,24 +273,7 @@ public class StockService {
                 break;
         }
     }
-	/*
-	 * public boolean updateStockForUser(String username, String stockName, int
-	 * newQuantity, double newPrice, String newCategory) { UserStocks userStock =
-	 * allUserStocks.stream() .filter(us -> us.getUsername().equals(username))
-	 * .findFirst() .orElse(null);
-	 * 
-	 * if (userStock != null) { Stock stockToUpdate = userStock.getStocks().stream()
-	 * .filter(stock -> stock.getName().equalsIgnoreCase(stockName)) .findFirst()
-	 * .orElse(null); if (stockToUpdate != null) {
-	 * stockToUpdate.setQuantity(newQuantity); // Update quantity
-	 * stockToUpdate.setPrice(newPrice); // Update price
-	 * stockToUpdate.setCategory(newCategory); // Update category
-	 * 
-	 * saveAllUserStocks(); // Save changes to the JSON file return true; }
-	 * 
-	 * } return false; }
-	 */
-    
+
     public void updateStock(Scanner input, String username) {
         List<Stock> userStocks = getStocksForUser(username);
 
@@ -323,15 +344,4 @@ public class StockService {
         saveAllUserStocks();
         System.out.println("Stock updated successfully!");
     }
-
-
-
-    
-    
-    
-    
-    
-    
-    
-    
 }
