@@ -115,7 +115,7 @@ public class StockControlApplication {
                 case 4:
                     // Calculate total inventory value
                     double totalValue = stockService.calculateTotalValueForUser(username);
-                    System.out.printf("Total inventory value: £%.2f\n", totalValue);
+                    System.out.printf("Total inventory value: Â£%.2f\n", totalValue);
                     break;
 
                 case 5:
