@@ -301,7 +301,7 @@ public class StockService {
         // List all stocks
         System.out.println("Your Stocks:");
         for (int i = 0; i < userStocks.size(); i++) {
-            System.out.printf("%d. %s (Quantity: %d, Price: £%.2f, Category: %s)\n",
+            System.out.printf("%d. %s (Quantity: %d, Price: Â£%.2f, Category: %s)\n",
                     i + 1,
                     userStocks.get(i).getItemName(),
                     userStocks.get(i).getQuantity(),
