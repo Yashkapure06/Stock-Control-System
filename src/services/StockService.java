@@ -212,7 +212,7 @@ public class StockService {
                 .orElse(null);
 
         if (userStock != null) {
-            userStock.getStocks().removeIf(stock -> stock.getName().equalsIgnoreCase(stockName));
+            userStock.getStocks().removeIf(stock -> stock.getItemName().equalsIgnoreCase(stockName));
             saveAllUserStocks();
         }
     }
@@ -225,7 +225,7 @@ public class StockService {
 
     public List<Stock> searchStocksByName(String username, String name) {
         return getStocksForUser(username).stream()
-                .filter(stock -> stock.getName().equalsIgnoreCase(name))
+                .filter(stock -> stock.getItemName().equalsIgnoreCase(name))
                 .collect(Collectors.toList());
     }
 
@@ -287,7 +287,7 @@ public class StockService {
         for (int i = 0; i < userStocks.size(); i++) {
             System.out.printf("%d. %s (Quantity: %d, Price: £%.2f, Category: %s)\n",
                     i + 1,
-                    userStocks.get(i).getName(),
+                    userStocks.get(i).getItemName(),
                     userStocks.get(i).getQuantity(),
                     userStocks.get(i).getPrice(),
                     userStocks.get(i).getCategory());

@@ -1,71 +1,26 @@
-//package models;
-//
-//public class Stock {
-//	private final String name;
-//    private int quantity;
-//    private final double price;
-//    private final String category;
-//    
-//	public Stock() {
-//		this.name = "";
-//		this.quantity = 0;
-//		this.price = 0.0;
-//		this.category = "";
-//	}
-//    
-//	public Stock(String name, int quantity, double price, String category) {
-//		this.name = name;
-//		this.quantity = quantity;
-//		this.price = price;
-//		this.category = category;
-//	}
-//	
-//	public String getName() { return name; }
-//    public int getQuantity() { return quantity; }
-//    public double getPrice() { return price; }
-//    public String getCategory() { return category; }
-//
-//    
-////    remove Quantity from Stock
-//    public void removeQuantity(int quantityToRemove) {
-//        if (quantityToRemove <= quantity) {
-//            quantity -= quantityToRemove;
-//        } else {
-//            System.out.println("Not enough quantity to remove.");
-//        }
-//    }
-//    
-//    //    add Quantity to Stock
-//    public void addQuantity(int quantityToAdd) {
-//        quantity += quantityToAdd;
-//    }
-//
-//	@Override
-//	public String toString() {
-//		return "Stock [name=" + name + ", quantity=" + quantity + ", price=" + price + ", category=" + category + "]";
-//	}
-//
-//
-//}
-
-
-
 package models;
 
 import java.util.Objects;
-import java.util.Date;
 
 public class Stock {
+
     private String itemId;
     private String itemName;
     private int quantity;
-    private int minimumStock; // New field
+    private double price;
+    private String category;
+    private int minimumStock;
 
     // Constructor
-    public Stock(String itemId, String itemName, int quantity, int minimumStock) {
+    public Stock(String itemId, String itemName, int quantity, double price, String category, int minimumStock) {
+        if (quantity < 0 || price < 0 || minimumStock < 0) {
+            throw new IllegalArgumentException("Quantity, price, and minimum stock cannot be negative.");
+        }
         this.itemId = itemId;
         this.itemName = itemName;
         this.quantity = quantity;
+        this.price = price;
+        this.category = category;
         this.minimumStock = minimumStock;
     }
 
@@ -91,7 +46,29 @@ public class Stock {
     }
 
     public void setQuantity(int quantity) {
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Quantity cannot be negative.");
+        }
         this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        if (price < 0) {
+            throw new IllegalArgumentException("Price cannot be negative.");
+        }
+        this.price = price;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public int getMinimumStock() {
@@ -99,34 +76,60 @@ public class Stock {
     }
 
     public void setMinimumStock(int minimumStock) {
+        if (minimumStock < 0) {
+            throw new IllegalArgumentException("Minimum stock cannot be negative.");
+        }
         this.minimumStock = minimumStock;
     }
 
+    // Add quantity to stock
+    public void addQuantity(int quantityToAdd) {
+        if (quantityToAdd < 0) {
+            throw new IllegalArgumentException("Quantity to add cannot be negative.");
+        }
+        this.quantity += quantityToAdd;
+    }
+
+    // Remove quantity from stock
+    public void removeQuantity(int quantityToRemove) {
+        if (quantityToRemove < 0) {
+            throw new IllegalArgumentException("Quantity to remove cannot be negative.");
+        }
+        if (quantityToRemove > this.quantity) {
+            throw new IllegalArgumentException("Cannot remove more than available quantity.");
+        }
+        this.quantity -= quantityToRemove;
+    }
+
+    // Override toString
+    @Override
+    public String toString() {
+        return "Stock{" +
+                "itemId='" + itemId + '\'' +
+                ", itemName='" + itemName + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", category='" + category + '\'' +
+                ", minimumStock=" + minimumStock +
+                '}';
+    }
+
+    // Override equals and hashCode
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Stock stock = (Stock) o;
         return quantity == stock.quantity &&
-               minimumStock == stock.minimumStock &&
-               Objects.equals(itemId, stock.itemId) &&
-               Objects.equals(itemName, stock.itemName);
+                Double.compare(stock.price, price) == 0 &&
+                minimumStock == stock.minimumStock &&
+                Objects.equals(itemId, stock.itemId) &&
+                Objects.equals(itemName, stock.itemName) &&
+                Objects.equals(category, stock.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(itemId, itemName, quantity, minimumStock);
-    }
-
-    @Override
-    public String toString() {
-        return "Stock{" +
-               "itemId='" + itemId + '\'' +
-               ", itemName='" + itemName + '\'' +
-               ", quantity=" + quantity +
-               ", minimumStock=" + minimumStock +
-               '}';
+        return Objects.hash(itemId, itemName, quantity, price, category, minimumStock);
     }
 }
-
-

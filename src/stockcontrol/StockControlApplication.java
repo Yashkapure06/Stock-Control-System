@@ -60,19 +60,24 @@ public class StockControlApplication {
             input.nextLine();
 
             switch (choice) {
-                case 1:
-                    // Add new stock
-                    System.out.print("Enter stock name: ");
-                    String name = input.nextLine();
-                    System.out.print("Enter stock quantity: ");
-                    int quantity = input.nextInt();
-                    System.out.print("Enter stock price: ");
-                    double price = input.nextDouble();
-                    input.nextLine();
-                    System.out.print("Enter stock category: ");
-                    String category = input.nextLine();
+	            case 1:
+	                // Add new stock
+	            	System.out.print("Enter stock name: ");
+	                String itemId = input.nextLine();
+	                System.out.print("Enter stock name: ");
+	                String itemName = input.nextLine();
+	                System.out.print("Enter stock quantity: ");
+	                int quantity = input.nextInt();
+	                System.out.print("Enter stock price: ");
+	                double price = input.nextDouble();
+	                input.nextLine(); // Consume newline
+	                System.out.print("Enter stock category: ");
+	                String category = input.nextLine();
+	                System.out.print("Enter minimum stock quantity: ");
+	                int minimumQuantity = input.nextInt();
 
-                    Stock newStock = new Stock(name, quantity, price, category);
+	                Stock newStock = new Stock(itemId, itemName, quantity, price, category, minimumQuantity);
+
                     stockService.addStockForUser(username, newStock);
                     System.out.println("Stock added successfully!");
                     break;
