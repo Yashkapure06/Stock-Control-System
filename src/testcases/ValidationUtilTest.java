@@ -1,4 +1,4 @@
-package testcases.whitebox.utils;
+package testcases;
 
 public class ValidationUtilTest {
 
