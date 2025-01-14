@@ -234,6 +234,22 @@ public class StockService {
                 .filter(stock -> stock.getCategory().equalsIgnoreCase(category))
                 .collect(Collectors.toList());
     }
+    
+    public List<Stock> getExpiredStocks() {
+        Date currentDate = new Date();
+        List<Stock> expiredStocks = new ArrayList<>();
+
+        for (UserStocks userStock : allUserStocks) {
+            expiredStocks.addAll(
+                userStock.getStocks().stream()
+                    .filter(stock -> stock.getExpiryDate().before(currentDate))
+                    .collect(Collectors.toList())
+            );
+        }
+
+        return expiredStocks;
+    }
+
 
     public static void handleSearchOrFilter(Scanner input, StockService stockService, String username) {
         System.out.println("\nSearch or Filter Stocks:");
@@ -344,4 +360,16 @@ public class StockService {
         saveAllUserStocks();
         System.out.println("Stock updated successfully!");
     }
+
+    public void removeExpiredStocks(List<Stock> expiredStocks) {
+        for (Stock expiredStock : expiredStocks) {
+            allUserStocks.forEach(userStock -> 
+                userStock.getStocks().removeIf(stock -> stock.equals(expiredStock))
+            );
+        }
+        saveAllUserStocks();
+    }
+    
+    
+
 }

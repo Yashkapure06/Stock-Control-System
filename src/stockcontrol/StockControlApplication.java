@@ -7,6 +7,10 @@ import repositories.UserRepository;
 import services.AuthService;
 import services.StockService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class StockControlApplication {
@@ -55,31 +59,43 @@ public class StockControlApplication {
             System.out.println("6. Update stock");
             System.out.println("7. Update stock with purchase order check");
             System.out.println("8. Logout");
+            System.out.println("9. view expired stock");
             System.out.print("Enter your choice: ");
             choice = input.nextInt();
             input.nextLine();
 
             switch (choice) {
 	            case 1:
-	                // Add new stock
-	            	System.out.print("Enter stock name: ");
-	                String itemId = input.nextLine();
-	                System.out.print("Enter stock name: ");
-	                String itemName = input.nextLine();
-	                System.out.print("Enter stock quantity: ");
-	                int quantity = input.nextInt();
-	                System.out.print("Enter stock price: ");
-	                double price = input.nextDouble();
-	                input.nextLine(); // Consume newline
-	                System.out.print("Enter stock category: ");
-	                String category = input.nextLine();
-	                System.out.print("Enter minimum stock quantity: ");
-	                int minimumQuantity = input.nextInt();
+	            	try {
+                        System.out.print("Enter stock ID: ");
+                        String itemId = input.nextLine();
+                        System.out.print("Enter stock name: ");
+                        String itemName = input.nextLine();
+                        System.out.print("Enter stock quantity: ");
+                        int quantity = input.nextInt();
+                        System.out.print("Enter stock price: ");
+                        double price = input.nextDouble();
+                        input.nextLine(); // Consume newline
+                        System.out.print("Enter stock category: ");
+                        String category = input.nextLine();
+                        System.out.print("Enter minimum stock quantity: ");
+                        int minimumQuantity = input.nextInt();
+                        input.nextLine(); // Consume newline
 
-	                Stock newStock = new Stock(itemId, itemName, quantity, price, category, minimumQuantity);
+                        System.out.print("Enter batch ID: ");
+                        String batchId = input.nextLine();
 
-                    stockService.addStockForUser(username, newStock);
-                    System.out.println("Stock added successfully!");
+                        System.out.print("Enter expiry date (yyyy-MM-dd): ");
+                        String expiryDateInput = input.nextLine();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        Date expiryDate = dateFormat.parse(expiryDateInput);
+
+                        Stock newStock = new Stock(itemId, itemName, quantity, price, category, minimumQuantity, batchId, expiryDate);
+                        stockService.addStockForUser(username, newStock);
+                        System.out.println("Stock added successfully!");
+                    } catch (ParseException e) {
+                        System.out.println("Invalid date format. Please use yyyy-MM-dd.");
+                    }
                     break;
 
                 case 2:
@@ -139,6 +155,75 @@ public class StockControlApplication {
                 case 8:
                     // Logout
                     System.out.println("Logging out...");
+                    break;
+                    
+                case 9:
+                    // Handle expired stocks
+                    System.out.println("\nExpired Stocks:");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                    // Retrieve expired stocks
+                    List<Stock> expiredStocks = stockService.getExpiredStocks();
+
+                    if (expiredStocks.isEmpty()) {
+                        System.out.println("No expired stocks found.");
+                    } else {
+                        // Display expired stocks
+                        for (int i = 0; i < expiredStocks.size(); i++) {
+                            Stock stock = expiredStocks.get(i);
+                            System.out.printf(
+                                "%d. %s (Batch: %s, Expiry: %s, Quantity: %d, Category: %s)%n",
+                                i + 1,
+                                stock.getItemName(),
+                                stock.getBatchId(),
+                                dateFormat.format(stock.getExpiryDate()),
+                                stock.getQuantity(),
+                                stock.getCategory()
+                            );
+                        }
+
+                        // User actions
+                        System.out.println("\nWhat would you like to do?");
+                        System.out.println("1. Remove all expired stocks");
+                        System.out.println("2. Generate a report of expired stocks");
+                        System.out.println("3. Take no action");
+                        System.out.print("Enter your choice: ");
+
+                        int actionChoice = input.nextInt();
+                        input.nextLine(); // Consume newline
+
+                        switch (actionChoice) {
+                            case 1:
+                                // Remove all expired stocks
+                                stockService.removeExpiredStocks(expiredStocks);
+                                System.out.println("All expired stocks have been removed.");
+                                break;
+
+                            case 2:
+                                // Generate a report
+                                System.out.println("\nGenerating expired stock report...");
+                                for (Stock stock : expiredStocks) {
+                                    System.out.printf(
+                                        "Item: %s, Batch: %s, Expiry: %s, Quantity: %d, Category: %s%n",
+                                        stock.getItemName(),
+                                        stock.getBatchId(),
+                                        dateFormat.format(stock.getExpiryDate()),
+                                        stock.getQuantity(),
+                                        stock.getCategory()
+                                    );
+                                }
+                                System.out.println("Report generation complete.");
+                                break;
+
+                            case 3:
+                                // Take no action
+                                System.out.println("No action taken.");
+                                break;
+
+                            default:
+                                System.out.println("Invalid choice. Returning to main menu.");
+                        }
+                    }
                     break;
 
                 default:

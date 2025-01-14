@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class Stock {
@@ -9,10 +10,12 @@ public class Stock {
     private int quantity;
     private double price;
     private String category;
+    private String batchId;        
+    private Date expiryDate;  
     private int minimumStock;
 
     // Constructor
-    public Stock(String itemId, String itemName, int quantity, double price, String category, int minimumStock) {
+    public Stock(String itemId, String itemName, int quantity, double price, String category, int minimumStock, String batchId, Date expiryDate) {
         if (quantity < 0 || price < 0 || minimumStock < 0) {
             throw new IllegalArgumentException("Quantity, price, and minimum stock cannot be negative.");
         }
@@ -22,6 +25,8 @@ public class Stock {
         this.price = price;
         this.category = category;
         this.minimumStock = minimumStock;
+        this.batchId = batchId;
+        this.expiryDate = expiryDate;
     }
 
     // Getters and Setters
@@ -39,6 +44,22 @@ public class Stock {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
+    }
+    
+    public String getBatchId() {
+        return batchId;
+    }
+
+    public void setBatchId(String batchId) {
+        this.batchId = batchId;
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
     }
 
     public int getQuantity() {
@@ -111,6 +132,8 @@ public class Stock {
                 ", price=" + price +
                 ", category='" + category + '\'' +
                 ", minimumStock=" + minimumStock +
+                ", batchId='" + batchId + '\'' +
+                ", expiryDate=" + expiryDate +
                 '}';
     }
 
@@ -125,11 +148,13 @@ public class Stock {
                 minimumStock == stock.minimumStock &&
                 Objects.equals(itemId, stock.itemId) &&
                 Objects.equals(itemName, stock.itemName) &&
-                Objects.equals(category, stock.category);
+                Objects.equals(category, stock.category) &&
+                Objects.equals(batchId, stock.batchId) &&
+                Objects.equals(expiryDate, stock.expiryDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(itemId, itemName, quantity, price, category, minimumStock);
+        return Objects.hash(itemId, itemName, quantity, price, category, minimumStock, batchId, expiryDate);
     }
 }
