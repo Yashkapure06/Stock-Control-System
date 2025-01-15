@@ -97,7 +97,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Stock;
 import models.UserStocks;
-
+import models.StockHistory;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -192,6 +192,39 @@ public class StockService {
         System.out.println("Stock History for Item ID: " + itemId);
         System.out.println(stock.getStockHistory());
     }
+
+    public void addToStock(String username, String itemId, int quantityToAdd, String description) {
+        // Find the user's stocks
+        UserStocks userStock = allUserStocks.stream()
+            .filter(us -> us.getUsername().equals(username))
+            .findFirst()
+            .orElse(null);
+    
+        if (userStock == null) {
+            System.out.println("No stocks found for user: " + username);
+            return;
+        }
+    
+        // Find the specific stock by itemId
+        Stock stock = userStock.getStocks().stream()
+            .filter(s -> s.getItemId().equals(itemId))
+            .findFirst()
+            .orElse(null);
+    
+        if (stock == null) {
+            System.out.println("No stock found with ID: " + itemId);
+            return;
+        }
+    
+        // Add to the stock's quantity
+        stock.setQuantity(stock.getQuantity() + quantityToAdd);
+    
+        // Add a history record
+        stock.getStockHistory().addHistoryRecord(quantityToAdd, "Addition", description);
+    
+        System.out.println("Stock updated successfully! New quantity: " + stock.getQuantity());
+    }
+    
     
 
     public void removeStockForUser(String username, String stockName) {
@@ -266,6 +299,28 @@ public class StockService {
                 break;
         }
     }
+
+    public static void handleViewStockHistory(Scanner input, StockService stockService, String username) {
+        System.out.print("Enter the item ID to view history: ");
+        String itemId = input.nextLine();
+        stockService.viewStockHistory(username, itemId);
+    }
+
+    public static void handleAddToStock(Scanner input, StockService stockService, String username) {
+        System.out.print("Enter the item ID: ");
+        String itemId = input.nextLine();
+    
+        System.out.print("Enter the quantity to add: ");
+        int quantityToAdd = input.nextInt();
+        input.nextLine(); // Consume newline
+    
+        System.out.print("Enter a description for this addition: ");
+        String description = input.nextLine();
+    
+        stockService.addToStock(username, itemId, quantityToAdd, description);
+    }
+    
+
 	/*
 	 * public boolean updateStockForUser(String username, String stockName, int
 	 * newQuantity, double newPrice, String newCategory) { UserStocks userStock =

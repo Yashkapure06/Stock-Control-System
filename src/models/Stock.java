@@ -101,8 +101,8 @@ public class Stock {
         return category;
     }
 
-    public String getStockHistory() {
-        return stockHistory.toString();
+    public StockHistory getStockHistory() {
+        return stockHistory;
     }
 
     // Add quantity to stock
@@ -154,6 +154,11 @@ public class Stock {
             System.out.println("Category cannot be empty.");
         }
     }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+    
 
     @Override
     public String toString() {

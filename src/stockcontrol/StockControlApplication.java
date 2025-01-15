@@ -48,7 +48,9 @@ public class StockControlApplication {
             System.out.println("4. Calculate total inventory value");
             System.out.println("5. Search or filter stocks");
             System.out.println("6. Update stock");
-            System.out.println("7. Logout");
+            System.out.println("7. View Item History");
+            System.out.println("8. Add to existing stock");
+            System.out.println("9. Logout");
             System.out.print("Enter your choice: ");
             choice = input.nextInt();
             input.nextLine();
@@ -110,9 +112,16 @@ public class StockControlApplication {
                     stockService.updateStock(input, username);
                     break;
 
-
-
                 case 7:
+                    StockService.handleViewStockHistory(input, stockService, username);
+                    break;
+
+                case 8 :
+                    StockService.handleAddToStock(input, stockService, username);
+                    break;
+
+
+                case 9:
                     System.out.println("Logging out...");
                     break;
 

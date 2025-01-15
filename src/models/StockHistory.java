@@ -73,7 +73,7 @@ public class StockHistory {
 
         @Override
         public String toString() {
-            return "Date: " + date +
+            return date +
                    ", Quantity Adjusted: " + quantityAdjusted +
                    ", Adjustment Type: " + adjustmentType +
                    ", Description: " + description;
