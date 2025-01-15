@@ -107,7 +107,7 @@ import java.util.stream.Collectors;
 
 public class StockService {
 	//This is Harsh Path:
-    private static final String STOCKS_FILE = "C:\\Users\\acer\\eclipse-workspace\\Stock-Control-System\\src\\resources\\stocks.json";
+    private static final String STOCKS_FILE = "C:\\Users\\gabri\\OneDrive\\Documents\\University\\Masters\\Software Measurement and Quality Assurance\\Coursework\\Repositories\\Stock System\\Stock-Control-System\\src\\resources\\stocks.json";
     private final ObjectMapper objectMapper;
     private List<UserStocks> allUserStocks;
 
@@ -154,6 +154,8 @@ public class StockService {
                 .findFirst()
                 .orElse(null);
 
+                
+
         if (userStock == null) {
             userStock = new UserStocks(username, new ArrayList<>());
             allUserStocks.add(userStock);
@@ -162,6 +164,35 @@ public class StockService {
         userStock.getStocks().add(newStock);
         saveAllUserStocks();
     }
+
+    public void viewStockHistory(String username, String itemId) {
+        // Find the user's stocks
+        UserStocks userStock = allUserStocks.stream()
+            .filter(us -> us.getUsername().equals(username))
+            .findFirst()
+            .orElse(null);
+    
+        if (userStock == null) {
+            System.out.println("No stocks found for user: " + username);
+            return;
+        }
+    
+        // Find the specific stock by itemId
+        Stock stock = userStock.getStocks().stream()
+            .filter(s -> s.getItemId().equals(itemId))
+            .findFirst()
+            .orElse(null);
+    
+        if (stock == null) {
+            System.out.println("No stock found with ID: " + itemId);
+            return;
+        }
+    
+        // Print the stock history
+        System.out.println("Stock History for Item ID: " + itemId);
+        System.out.println(stock.getStockHistory());
+    }
+    
 
     public void removeStockForUser(String username, String stockName) {
         UserStocks userStock = allUserStocks.stream()
@@ -264,12 +295,15 @@ public class StockService {
         // List all stocks
         System.out.println("Your Stocks:");
         for (int i = 0; i < userStocks.size(); i++) {
-            System.out.printf("%d. %s (Quantity: %d, Price: £%.2f, Category: %s)\n",
+            System.out.printf("%d. %s (Quantity: %d, Price: ï¿½%.2f, Stock History: %s, Category: %s)\n",
                     i + 1,
                     userStocks.get(i).getName(),
+                    userStocks.get(i).getItemId(),
                     userStocks.get(i).getQuantity(),
                     userStocks.get(i).getPrice(),
+                    userStocks.get(i).getStockHistory(),
                     userStocks.get(i).getCategory());
+                    
         }
 
         // Ask user to choose a stock

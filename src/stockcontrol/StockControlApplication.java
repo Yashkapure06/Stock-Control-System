@@ -57,6 +57,8 @@ public class StockControlApplication {
                 case 1:
                     System.out.print("Enter stock name: ");
                     String name = input.nextLine();
+                    System.out.print("Enter stock ID: ");
+                    String itemId = input.nextLine();
                     System.out.print("Enter stock quantity: ");
                     int quantity = input.nextInt();
                     System.out.print("Enter stock price: ");
@@ -65,7 +67,7 @@ public class StockControlApplication {
                     System.out.print("Enter stock category: ");
                     String category = input.nextLine();
 
-                    Stock newStock = new Stock(name, quantity, price, category);
+                    Stock newStock = new Stock(name, itemId, quantity, price, category);
                     stockService.addStockForUser(username, newStock);
                     System.out.println("Stock added successfully!");
                     break;
@@ -84,7 +86,7 @@ public class StockControlApplication {
 
                 case 4:
                     double totalValue = stockService.calculateTotalValueForUser(username);
-                    System.out.printf("Total inventory value: £%.2f\n", totalValue);
+                    System.out.printf("Total inventory value: ï¿½%.2f\n", totalValue);
                     break;
                 case 5:
                 	stockService.handleSearchOrFilter(input, stockService, username);
