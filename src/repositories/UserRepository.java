@@ -11,7 +11,7 @@ public class UserRepository {
 //    private final String filePath = "E:\\Eclipse\\Stock-Control-System\\src\\resources\\users.json";
 	
 //	this is harsh path
-	private final String filePath="C:\\Users\\acer\\eclipse-workspace\\Stock-Control-System\\src\\resources\\users.json";
+	private final String filePath="C:\\Users\\alexa\\Stock-Control-System\\src\\resources\\users.json";
 //C:\Users\acer\eclipse-workspace\Stock-Control-System\src\resources
     
     public List<User> getAllUsers() {
