@@ -468,7 +468,28 @@ public class StockService {
                 .collect(Collectors.toList());
     }
     
+    //new alex
     
+    public void removeExpiredStocks(String username) {
+        UserStocks userStock = allUserStocks.stream()
+                .filter(us -> us.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
+
+        if (userStock != null) {
+            List<Stock> stocks = userStock.getStocks();
+            System.out.println("Before removal: " + stocks); // Debugging
+            stocks.removeIf(Stock::isExpired); // Remove stocks where isExpired() returns true
+            System.out.println("After removal: " + stocks); // Debugging
+            saveAllUserStocks();
+            System.out.println("Expired stocks removed successfully.");
+        } else {
+            System.out.println("No stocks found for user.");
+        }
+    }
+
+    
+    //new alex end
     
     
     

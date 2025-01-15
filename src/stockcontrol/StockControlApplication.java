@@ -130,6 +130,9 @@ import repositories.UserRepository;
 import services.AuthService;
 import services.StockService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -172,7 +175,8 @@ public class StockControlApplication {
             System.out.println("4. Calculate total inventory value");
             System.out.println("5. Search or filter stocks");
             System.out.println("6. Update stock");
-            System.out.println("7. Logout");
+            System.out.println("7. Remove expired stocks");
+            System.out.println("8. Logout");
             System.out.print("Enter your choice: ");
             choice = input.nextInt();
             input.nextLine();
@@ -188,8 +192,17 @@ public class StockControlApplication {
                     input.nextLine();
                     System.out.print("Enter stock category: ");
                     String category = input.nextLine();
+                    System.out.print("Enter stock expiry date (yyyy-MM-dd): ");
+                    String expiryDateInput = input.nextLine();
+                    
+                    Date expiryDate = null;
+                    try {
+                        expiryDate = new SimpleDateFormat("yyyy-MM-dd").parse(expiryDateInput);
+                    } catch (ParseException e) {
+                        System.out.println("Invalid date format. Stock will have no expiry date.");
+                    }
 
-                    Stock newStock = new Stock(name, quantity, price, category);
+                    Stock newStock = new Stock(name, quantity, price, category, expiryDate);
                     stockService.addStockForUser(username, newStock);
                  //  System.out.println("Stock added successfully!");
                     break;
@@ -217,8 +230,13 @@ public class StockControlApplication {
                 case 6:
                     stockService.updateStock(input, username);
                     break;
-
-                case 7:
+                case 7 :
+                	System.out.println("Removing expired stocks for user: " + username);
+                    stockService.removeExpiredStocks(username);
+                    System.out.println("Returning to main menu...");
+                    break;
+                    
+                case 8:
                     System.out.println("Logging out...");
                     break;
 
@@ -226,7 +244,7 @@ public class StockControlApplication {
                     System.out.println("Invalid choice!");
                     break;
             }
-        } while (choice != 7);
+        } while (choice != 8);
         input.close();
     }
 }

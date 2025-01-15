@@ -1,1 +1,1 @@
-[{"username":"yash kapure","stocks":[{"name":"T-shirt","quantity":25,"price":250.0,"category":"clothing"},{"name":"apple","quantity":2,"price":12.0,"category":"fruits"},{"name":"banana","quantity":15,"price":4.0,"category":"fruits"},{"name":"mango","quantity":3,"price":25.0,"category":"fruits"}]},{"username":"harshwardhan","stocks":[{"name":"mango","quantity":14,"price":5.0,"category":"fruits"}]}]
+[{"username":"harshwardhan","stocks":[{"name":"cheese","quantity":12,"price":1.0,"category":"dairy","expiryDate":1818025200000}]}]
