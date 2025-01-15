@@ -264,7 +264,7 @@
 //        // List all stocks
 //        System.out.println("Your Stocks:");
 //        for (int i = 0; i < userStocks.size(); i++) {
-//            System.out.printf("%d. %s (Quantity: %d, Price: £%.2f, Category: %s)\n",
+//            System.out.printf("%d. %s (Quantity: %d, Price: ï¿½%.2f, Category: %s)\n",
 //                    i + 1,
 //                    userStocks.get(i).getName(),
 //                    userStocks.get(i).getQuantity(),
@@ -354,7 +354,7 @@ public class StockService {
 	//This is Harsh Path:
     //private static final String STOCKS_FILE = "C:\\Users\\acer\\eclipse-workspace\\Stock-Control-System\\src\\resources\\stocks.json";
 	//This is ALex Path:
-	private static final String STOCKS_FILE = "C:\\Users\\alexa\\Stock-Control-System\\src\\resources\\stocks.json";
+	private static final String STOCKS_FILE = "C:\\Users\\gabri\\OneDrive\\Documents\\University\\Masters\\Software Measurement and Quality Assurance\\Coursework\\Repositories\\Stock System\\Stock-Control-System\\src\\resources\\stocks.json";
     private final ObjectMapper objectMapper;
     private List<UserStocks> allUserStocks;
 
@@ -521,7 +521,7 @@ public class StockService {
         // List all stocks
         System.out.println("Your Stocks:");
         for (int i = 0; i < userStocks.size(); i++) {
-            System.out.printf("%d. %s (Quantity: %d, Price: £%.2f, Category: %s)\n",
+            System.out.printf("%d. %s (Quantity: %d, Price: ï¿½%.2f, Category: %s)\n",
                     i + 1,
                     userStocks.get(i).getName(),
                     userStocks.get(i).getQuantity(),
