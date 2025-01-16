@@ -1,5 +1,88 @@
 package testcases.blackbox.repositories;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+import java.util.Optional;
+
+//import org.junit.jupiter.api.Assertions;
+//import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
+
+import models.Stock;
+import repositories.StockRepository;
 
 public class StockRepositoryBlackBoxTest {
+	
+	
+    
+    @Test
+    public void testAddStock() {
+        StockRepository repository = new StockRepository();
+        Stock apple = new Stock("Apple", 100, 5.50, "Fruit");
+
+        repository.addStock(apple);
+
+        List<Stock> allStocks = repository.getAllStocks();
+        assertEquals(1, allStocks.size());
+        assertEquals("Apple", allStocks.get(0).getName());
+    }
+
+    @Test
+    public void testFindStockByName() {
+        StockRepository repository = new StockRepository();
+        Stock apple = new Stock("Apple", 100, 5.50, "Fruit");
+
+        repository.addStock(apple);
+
+        Optional<Stock> foundStock = repository.findStockByName("Apple");
+        assertTrue(foundStock.isPresent());
+        assertEquals("Apple", foundStock.get().getName());
+
+        Optional<Stock> notFoundStock = repository.findStockByName("NonExistent");
+        assertFalse(notFoundStock.isPresent());
+    }
+
+    @Test
+    public void testFindStocksByCategory() {
+        StockRepository repository = new StockRepository();
+        Stock apple = new Stock("Apple", 100, 5.50, "Fruit");
+        Stock banana = new Stock("Banana", 50, 2.50, "Fruit");
+        Stock laptop = new Stock("Laptop", 10, 299.99, "Electronics");
+
+        repository.addStock(apple);
+        repository.addStock(banana);
+        repository.addStock(laptop);
+
+        List<Stock> fruits = repository.findStocksByCategory("Fruit");
+        assertEquals(2, fruits.size());
+
+        List<Stock> electronics = repository.findStocksByCategory("Electronics");
+        assertEquals(1, electronics.size());
+
+        List<Stock> nonExistentCategory = repository.findStocksByCategory("Toys");
+        assertTrue(nonExistentCategory.isEmpty());
+    }
+
+    @Test
+    public void testRemoveStock() {
+        StockRepository repository = new StockRepository();
+        Stock apple = new Stock("Apple", 100, 5.50, "Fruit");
+        repository.addStock(apple);
+
+        boolean removed = repository.removeStock("Apple", 50);
+        assertTrue(removed);
+        assertEquals(50, apple.getQuantity());
+
+        boolean notRemoved = repository.removeStock("NonExistent", 10);
+        assertFalse(notRemoved);
+    }
+
+
+
 
 }
+
