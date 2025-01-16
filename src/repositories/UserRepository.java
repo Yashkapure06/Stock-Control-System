@@ -1,4 +1,3 @@
-
 package repositories;
 
 import models.User;
@@ -8,13 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserRepository {
-    //	This is Yash Path
-   private final String filePath = "E:\\Eclipse\\Stock-Control-System\\src\\resources\\users.json";
+//	This is Yash Path
+//    private final String filePath = "E:\\Eclipse\\Stock-Control-System\\src\\resources\\users.json";
 	
-//	this is alex path
-	// private final String filePath="C:\\Users\\alexa\\Stock-Control-System\\src\\resources\\users.json";
-	// this is harsh path
-	// private final String filePath="C:\\Users\\acer\\eclipse-workspace\\Stock-Control-System\\src\\resources\\users.json";
+//	this is harsh path
+	private final String filePath="C:\\Users\\acer\\eclipse-workspace\\Stock-Control-System\\src\\resources\\users.json";
 //C:\Users\acer\eclipse-workspace\Stock-Control-System\src\resources
     
     public List<User> getAllUsers() {
@@ -32,10 +29,4 @@ public class UserRepository {
                 .filter(user -> user.getEmail().equalsIgnoreCase(email))
                 .findFirst();
     }
-
-	public String filePath() {
-		return null;
-	}
-
-	
 }
