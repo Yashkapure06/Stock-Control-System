@@ -5,15 +5,18 @@ public class User {
     private String username;
     private String password;
 
+    // Default constructor (required for Jackson)
     public User() {
     }
 
+    // Parameterized constructor
     public User(String email, String username, String password) {
         this.email = email;
         this.username = username;
         this.password = password;
     }
 
+    // Getters and setters
     public String getEmail() {
         return email;
     }
