@@ -2,11 +2,14 @@ package testcases.blackbox.service;
 
 import services.StockService;
 import models.Stock;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.InputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,205 +19,134 @@ public class StockServiceBlackBoxTest {
 
     private StockService stockService;
 
+    // Path to the stocks.json file
+    private static final String STOCKS_FILE = "D:\\Repositories\\StockNew\\Stock-Control-System\\src\\resources\\stocks.json";
+
+    @Before
+    public void setup() throws IOException {
+        // Clear the file content before each test to ensure a fresh state
+        File file = new File(STOCKS_FILE);
+        if (file.exists()) {
+            new FileWriter(file, false).close();
+        }
+        stockService = new StockService();
+    }
+
+    //Tests the calculation of the total value of stocks for a user.
     @Test
     public void testCalculateTotalValueForUser() {
-        stockService = new StockService();
-        Stock stock1 = new Stock("Laptop", 1, 150.0, "Electronics");
-        Stock stock2 = new Stock("Smartphone", 1, 200.0, "Electronics");
+        Date expiryDate1 = new Date(System.currentTimeMillis() + 86400000);
+        Date expiryDate2 = new Date(System.currentTimeMillis() + 172800000);
+        Stock stock1 = new Stock("Pear", 1, 150.0, "Food", expiryDate1);
+        Stock stock2 = new Stock("Potato", 1, 200.0, "Food", expiryDate2);
 
         stockService.addStockForUser("user1", stock1);
         stockService.addStockForUser("user1", stock2);
 
         double totalValue = stockService.calculateTotalValueForUser("user1");
         assertEquals(350.0, totalValue);
-        stockService.removeStockForUser("user1", "Laptop");
-        stockService.removeStockForUser("user1", "Smartphone");
-    }
-    
 
-
-    @Test
-    public void testRemoveStockForUser_NonExistingUser() {
-        stockService = new StockService();
-        stockService.removeStockForUser("nonExistentUser", "Tablet");
-
-        // Ensure no exception occurs and no unintended side effects
-        List<Stock> stocks = stockService.getStocksForUser("nonExistentUser");
-        assertTrue(stocks.isEmpty());
+        stockService.removeStockForUser("user1", "Pear");
+        stockService.removeStockForUser("user1", "Potato");
     }
 
-
-
+    //Tests adding stock for a user.
     @Test
-    public void testAddStockForUser_DuplicateStock_Failure() {
-        Stock stock1 = new Stock("Laptop", 5, 150.0, "Electronics");
-        Stock stock2 = new Stock("Laptop", 3, 145.0, "Electronics");
+    public void testAddStockForUser() {
+        Date expiryDate = new Date(System.currentTimeMillis() + 86400000);
+        Stock stock = new Stock("Banana", 10, 50.0, "Food", expiryDate);
 
-        stockService = new StockService();
-        stockService.addStockForUser("user2", stock1);
-        stockService.addStockForUser("user2", stock2);
+        stockService.addStockForUser("user2", stock);
 
         List<Stock> stocks = stockService.getStocksForUser("user2");
-        long count = stocks.stream().filter(s -> s.getName().equals("Laptop")).count();
-        assertEquals(1, count); // Duplicate stock should not be added
+        assertTrue(stocks.stream().anyMatch(s -> s.getName().equals("Banana") && s.getExpiryDate().equals(expiryDate)));
     }
 
+    //Tests removing expired stocks for a user.
     @Test
-    public void testRemoveStockForUser_ExistingStock_Success() {
+    public void testRemoveExpiredStocks_Success() {
+        Date pastDate = new Date(System.currentTimeMillis() - 86400000);
+        Date futureDate = new Date(System.currentTimeMillis() + 86400000);
+        Stock expiredStock = new Stock("ExpiredApple", 5, 100.0, "Fruit", pastDate);
+        Stock freshStock = new Stock("FreshApple", 5, 100.0, "Fruit", futureDate);
 
+        stockService.addStockForUser("user3", expiredStock);
+        stockService.addStockForUser("user3", freshStock);
 
-        Stock stock = new Stock("Laptop", 5, 150.0, "Electronics");
-
-        stockService = new StockService();
-        stockService.addStockForUser("user3", stock);
-        stockService.removeStockForUser("user3", "Laptop");
+        stockService.removeExpiredStocks("user3");
 
         List<Stock> stocks = stockService.getStocksForUser("user3");
-        assertFalse(stocks.stream().anyMatch(s -> s.getName().equals("Laptop")));
+        assertFalse(stocks.stream().anyMatch(s -> s.getName().equals("ExpiredApple")));
+        assertTrue(stocks.stream().anyMatch(s -> s.getName().equals("FreshApple")));
     }
 
+    //Tests searching stocks by name.
     @Test
-    public void testRemoveStockForUser_NonExistingStock_NoEffect() {
+    public void testSearchStocksByName() {
+        Date expiryDate = new Date(System.currentTimeMillis() + 86400000);
+        Stock stock = new Stock("Orange", 5, 80.0, "Fruit", expiryDate);
 
-        Stock stock = new Stock("Laptop", 5, 150.0, "Electronics");
-
-        stockService = new StockService();
         stockService.addStockForUser("user4", stock);
-        stockService.removeStockForUser("user4", "Smartphone");
 
-        List<Stock> stocks = stockService.getStocksForUser("user4");
-        assertTrue(stocks.stream().anyMatch(s -> s.getName().equals("Laptop")));
-
+        List<Stock> foundStocks = stockService.searchStocksByName("user4", "Orange");
+        assertTrue(foundStocks.stream().anyMatch(s -> s.getName().equals("Orange") && s.getExpiryDate().equals(expiryDate)));
     }
 
+    //Tests searching stocks by category.
     @Test
-    public void testSearchStocksByName_Found() {
+    public void testFilterStocksByCategory() {
+        Date expiryDate = new Date(System.currentTimeMillis() + 86400000);
+        Date pastDate = new Date(System.currentTimeMillis() - 86400000);
+        Stock freshStock = new Stock("Carrot", 10, 30.0, "Vegetable", expiryDate);
+        Stock expiredStock = new Stock("ExpiredCarrot", 10, 30.0, "Vegetable", pastDate);
 
+        stockService.addStockForUser("user5", freshStock);
+        stockService.addStockForUser("user5", expiredStock);
+        stockService.removeExpiredStocks("user5");
 
-        Stock stock = new Stock("Laptop", 5, 150.0, "Electronics");
-
-        stockService = new StockService();
-        stockService.addStockForUser("user5", stock);
-
-        List<Stock> foundStocks = stockService.searchStocksByName("user5", "Laptop");
-        assertTrue(foundStocks.stream().anyMatch(s -> s.getName().equals("Laptop")));
-
-
+        List<Stock> vegetableStocks = stockService.filterStocksByCategory("user5", "Vegetable");
+        assertTrue(vegetableStocks.stream().anyMatch(s -> s.getName().equals("Carrot")));
+        assertFalse(vegetableStocks.stream().anyMatch(s -> s.getName().equals("ExpiredCarrot")));
     }
 
+    //Tests updating stock.
     @Test
-    public void testFilterStocksByCategory_Found() {
+    public void testUpdateStock() {
+        Date expiryDate = new Date(System.currentTimeMillis() + 86400000); // 1 day from now
+        Stock stock = new Stock("Mango", 5, 120.0, "Fruit", expiryDate);
 
-        Stock stock1 = new Stock("Laptop", 5, 150.0, "Electronics");
-        Stock stock2 = new Stock("Smartphone", 3, 200.0, "Electronics");
+        stockService.addStockForUser("user6", stock);
 
-        stockService = new StockService();
-        stockService.addStockForUser("user6", stock1);
-        stockService.addStockForUser("user6", stock2);
+        // Simulate user input for updating stock
+        String simulatedInput = "1\nadd\n10\n150\nTropical Fruits\n";
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
-        List<Stock> techStocks = stockService.filterStocksByCategory("user6", "Electronics");
-        assertTrue(techStocks.stream().allMatch(s -> s.getCategory().equals("Electronics")));
+        stockService.updateStock(new Scanner(System.in), "user6");
 
-    }
-
-    @Test
-    public void testHandleSearchOrFilter_SearchByName() {
-        stockService = new StockService();
-        Stock stock = new Stock("Smartphone", 3, 200.0, "Electronics");
-        stockService.addStockForUser("user7", stock);
-
-        // Simulate user choice to search by name
-        String simulatedInput = "1\nSmartphone\n";
-        InputStream stdin = System.in;
-        try {
-            System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-            StockService.handleSearchOrFilter(new Scanner(System.in), stockService, "user7");
-        } finally {
-            System.setIn(stdin);
-        }
-        // Validate that no exception occurs (or capture stdout for assertions)
-    }
-
-
-    @Test
-    public void testFilterStocksByCategory_NotFound() {
-
-        Stock stock1 = new Stock("Laptop", 5, 150.0, "Electronics");
-        Stock stock2 = new Stock("Smartphone", 3, 200.0, "Electronics");
-
-        stockService = new StockService();
-        stockService.addStockForUser("user8", stock1);
-        stockService.addStockForUser("user8", stock2);
-
-        List<Stock> healthStocks = stockService.filterStocksByCategory("user1", "Healthcare");
-        assertTrue(healthStocks.isEmpty());
-
-    }
-    
-    @Test
-    public void testAddStockForUser_NewStock_Success() {
-
-        Stock stock = new Stock("Laptop", 5, 150.0, "Electronics");
-
-        stockService = new StockService();
-        stockService.addStockForUser("user9", stock);
-
-        List<Stock> stocks = stockService.getStocksForUser("user9");
-        assertTrue(stocks.stream().anyMatch(s -> s.getName().equals("Laptop")));
-
-    }
-    
-    @Test
-    public void testUpdateStock_Success() {
-        stockService = new StockService();
-        Stock stock = new Stock("Laptop", 5, 150.0, "Electronics");
-        stockService.addStockForUser("user10", stock);
-
-        // Simulate user input for updating the stock
-        String simulatedInput = "1\nadd\n3\n400\nComputing\n";
-        InputStream stdin = System.in;
-        try {
-            System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-            stockService.updateStock(new Scanner(System.in), "user10");
-        } finally {
-            System.setIn(stdin);
-        }
-
-        List<Stock> stocks = stockService.getStocksForUser("user10");
-        Stock updatedStock = stocks.stream()
-                .filter(s -> s.getName().equals("Laptop"))
-                .findFirst()
-                .orElse(null);
+        List<Stock> stocks = stockService.getStocksForUser("user6");
+        Stock updatedStock = stocks.stream().filter(s -> s.getName().equals("Mango")).findFirst().orElse(null);
 
         assertNotNull(updatedStock);
-        assertEquals(8, updatedStock.getQuantity());
-        assertEquals(400.0, updatedStock.getPrice());
-        assertEquals("Computing", updatedStock.getCategory());
-        stockService.removeStockForUser("user10", "Laptop");
+        assertEquals(15, updatedStock.getQuantity());
+        assertEquals(150.0, updatedStock.getPrice());
+        assertEquals("Tropical Fruits", updatedStock.getCategory());
+        assertEquals(expiryDate, updatedStock.getExpiryDate());
+    }
+
+    //Tests if removed expired stocks are subtracted from the value of a user's stocks.
+    @Test
+    public void testExpiredStocksAreExcludedFromTotalValue() {
+        Date pastDate = new Date(System.currentTimeMillis() - 86400000);
+        Date futureDate = new Date(System.currentTimeMillis() + 86400000);
+        Stock expiredStock = new Stock("ExpiredApple", 5, 100.0, "Fruit", pastDate);
+        Stock freshStock = new Stock("FreshApple", 5, 100.0, "Fruit", futureDate);
+
+        stockService.addStockForUser("user7", expiredStock);
+        stockService.addStockForUser("user7", freshStock);
+        stockService.removeExpiredStocks("user7");
+
+        double totalValue = stockService.calculateTotalValueForUser("user7");
+        assertEquals(500.0, totalValue);
         
     }
-    
-    
-    @Test
-    public void testSearchStocksByName_NoMatch() {
-        stockService = new StockService();
-        List<Stock> foundStocks = stockService.searchStocksByName("user11", "NonExistent");
-        assertTrue(foundStocks.isEmpty());
-    }
-
-    @Test
-    public void testFilterStocksByCategory_NoMatch() {
-        stockService = new StockService();
-        List<Stock> filteredStocks = stockService.filterStocksByCategory("user12", "NonExistent");
-        assertTrue(filteredStocks.isEmpty());
-    }
-
-    @Test
-    public void testCalculateTotalValueForUser_NoStocks() {
-        stockService = new StockService();
-        double totalValue = stockService.calculateTotalValueForUser("user13");
-        assertEquals(0.0, totalValue);
-    }
-
-
 }

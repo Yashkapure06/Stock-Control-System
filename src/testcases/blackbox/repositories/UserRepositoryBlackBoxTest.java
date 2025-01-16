@@ -11,28 +11,28 @@ import org.junit.Test;
 
 public class UserRepositoryBlackBoxTest {
 
+	//Tests the retrieval of all users from the repository.
     @Test
     public void testGetAllUsers() {
         UserRepository userRepository = new UserRepository();
-
         List<User> users = userRepository.getAllUsers();
         assertNotNull(users, "getAllUsers should not return null");
     }
 
+    //Tests saving a user to the repository.
     @Test
     public void testSaveUser() {
         UserRepository userRepository = new UserRepository();
         User user = new User("test@example.com", "testUser", "testPassword");
-
         userRepository.saveUser(user);
-
         List<User> users = userRepository.getAllUsers();
         boolean userSaved = users.stream().anyMatch(u -> u.getEmail().equals("test@example.com"));
 
         assertTrue(userSaved, "User should be saved successfully");
         System.out.println("saveUser test passed");
     }
-
+    
+    //Tests finding a user by email.
     @Test
     public void testFindUserByEmail() {
         UserRepository userRepository = new UserRepository();
@@ -45,7 +45,6 @@ public class UserRepositoryBlackBoxTest {
         assertTrue(foundUser.isPresent(), "User should be found");
         assertEquals(email, foundUser.get().getEmail(), "User's email should match");
 
-        // Case-insensitivity test
         String emailUpperCase = "TEST@EXAMPLE.COM";
         Optional<User> foundUserUpperCase = userRepository.findUserByEmail(emailUpperCase);
 

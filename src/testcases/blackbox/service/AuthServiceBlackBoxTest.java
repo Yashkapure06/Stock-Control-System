@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AuthServiceBlackBoxTest {
 
 
-
+	// Tests the registration of a new user with a unique email. 
     @Test
     public void testRegisterNewEmail() throws IOException {
         UserRepository userRepository = new UserRepository();
@@ -66,7 +66,7 @@ public class AuthServiceBlackBoxTest {
 
 
 
-
+    //Tests the registration of a user with an existing email.
     @Test
     public void testRegisterExistingEmail() {
 
@@ -84,9 +84,9 @@ public class AuthServiceBlackBoxTest {
         assertNull(registeredUser, "Registration should fail for existing email");
     }
 
+    //Tests the registration fields when left empty.
     @Test
     public void testRegisterEmptyFields() {
-
         UserRepository userRepository = new UserRepository();
         AuthService authService = new AuthService(userRepository);
 
@@ -103,7 +103,8 @@ public class AuthServiceBlackBoxTest {
         assertNull(registeredUser, "Registration should fail for empty password");
 
     }
-
+    
+    //Tests a successful login.
     @Test
     public void testLoginSuccessful() {
         UserRepository userRepository = new UserRepository();
@@ -119,9 +120,9 @@ public class AuthServiceBlackBoxTest {
 
     }
 
+    //Tests an unsuccessful login.
     @Test
     public void testLoginUnsuccessful() {
-
         UserRepository userRepository = new UserRepository();
         AuthService authService = new AuthService(userRepository);
 
