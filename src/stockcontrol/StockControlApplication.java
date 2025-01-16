@@ -201,10 +201,26 @@ public class StockControlApplication {
                     System.out.println("Stock removed successfully!");
                     break;
 
+//                case 3:
+//                    System.out.println("Your Stocks:");
+//                    stockService.getStocksForUser(username).forEach(System.out::println);
                 case 3:
-                    System.out.println("Your Stocks:");
-                    stockService.getStocksForUser(username).forEach(System.out::println);
+                    List<Stock> stocks = stockService.getStocksForUser(username);
+                    if (stocks.isEmpty()) {
+                        System.out.println("No stocks available.");
+                    } else {
+                        System.out.println("+----------------+----------+----------+---------------+");
+                        System.out.println("| Name           | Quantity | Price    | Category      |");
+                        System.out.println("+----------------+----------+----------+---------------+");
+                        for (Stock stock : stocks) {
+                            System.out.printf("| %-14s | %-8d | £%-7.2f | %-13s |\n",
+                                              stock.getName(), stock.getQuantity(), stock.getPrice(), stock.getCategory());
+                        }
+                        System.out.println("+----------------+----------+----------+---------------+");
+                    }
                     break;
+
+                    
 
                 case 4:
                     double totalValue = stockService.calculateTotalValueForUser(username);

@@ -205,7 +205,14 @@ public class Stock {
 
     @Override
     public String toString() {
-        return "Stock [name=" + name + ", quantity=" + quantity + ", price=£" + price + ", category=" + category + "]";
+        return String.format(
+            "+----------------+----------+----------+---------------+\n" +
+            "| Name           | Quantity | Price    | Category      |\n" +
+            "+----------------+----------+----------+---------------+\n" +
+            "| %-14s | %-8d | £%-7.2f | %-13s |\n" +
+            "+----------------+----------+----------+---------------+",
+            name, quantity, price, category
+        );
     }
 }
 
