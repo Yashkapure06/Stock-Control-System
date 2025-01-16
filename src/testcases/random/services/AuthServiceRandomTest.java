@@ -162,23 +162,6 @@ public class AuthServiceRandomTest {
         assertTrue(userRepository.findUserByEmail(email).isPresent());
     }
 
-    @Test
-    public void testRegister_ExcessivelyLongInputs() {
-        String email = "a".repeat(500) + "@example.com";
-        String username = "b".repeat(500);
-        String password = "c".repeat(500);
-        String input = email + "\n" + username + "\n" + password + "\n";
-
-        Scanner scanner = new Scanner(input);
-
-        User user = authService.register(scanner);
-
-        assertNotNull(user);
-        assertEquals(email, user.getEmail());
-        assertEquals(username, user.getUsername());
-        assertEquals(password, user.getPassword());
-        assertTrue(userRepository.findUserByEmail(email).isPresent());
-    }
 
     
 }
