@@ -27,7 +27,6 @@ public class StockServiceBlackBoxTest {
 
     @Before
     public void setup() throws IOException {
-        // Clear the file content before each test to ensure a fresh state
         File file = new File(STOCKS_FILE);
         if (file.exists()) {
             new FileWriter(file, false).close();
@@ -35,7 +34,6 @@ public class StockServiceBlackBoxTest {
         stockService = new StockService();
     }
 
-    //Tests the calculation of the total value of stocks for a user.
     @Test
     public void testCalculateTotalValueForUser() {
         Date expiryDate1 = new Date(System.currentTimeMillis() + 86400000);
@@ -53,7 +51,6 @@ public class StockServiceBlackBoxTest {
         stockService.removeStockForUser("user1", "Potato");
     }
 
-    //Tests adding stock for a user.
     @Test
     public void testAddStockForUser() {
         Date expiryDate = new Date(System.currentTimeMillis() + 86400000);
@@ -65,7 +62,6 @@ public class StockServiceBlackBoxTest {
         assertTrue(stocks.stream().anyMatch(s -> s.getName().equals("Banana") && s.getExpiryDate().equals(expiryDate)));
     }
 
-    //Tests removing expired stocks for a user.
     @Test
     public void testRemoveExpiredStocks_Success() {
         Date pastDate = new Date(System.currentTimeMillis() - 86400000);
@@ -83,7 +79,6 @@ public class StockServiceBlackBoxTest {
         assertTrue(stocks.stream().anyMatch(s -> s.getName().equals("FreshApple")));
     }
 
-    //Tests searching stocks by name.
     @Test
     public void testSearchStocksByName() {
         Date expiryDate = new Date(System.currentTimeMillis() + 86400000);
@@ -95,7 +90,6 @@ public class StockServiceBlackBoxTest {
         assertTrue(foundStocks.stream().anyMatch(s -> s.getName().equals("Orange") && s.getExpiryDate().equals(expiryDate)));
     }
 
-    //Tests searching stocks by category.
     @Test
     public void testFilterStocksByCategory() {
         Date expiryDate = new Date(System.currentTimeMillis() + 86400000);
@@ -112,15 +106,13 @@ public class StockServiceBlackBoxTest {
         assertFalse(vegetableStocks.stream().anyMatch(s -> s.getName().equals("ExpiredCarrot")));
     }
 
-    //Tests updating stock.
     @Test
     public void testUpdateStock() {
-        Date expiryDate = new Date(System.currentTimeMillis() + 86400000); // 1 day from now
+        Date expiryDate = new Date(System.currentTimeMillis() + 86400000);
         Stock stock = new Stock("Mango", 5, 120.0, "Fruit", expiryDate);
 
         stockService.addStockForUser("user6", stock);
 
-        // Simulate user input for updating stock
         String simulatedInput = "1\nadd\n10\n150\nTropical Fruits\n";
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
@@ -136,7 +128,6 @@ public class StockServiceBlackBoxTest {
         assertEquals(expiryDate, updatedStock.getExpiryDate());
     }
 
-    //Tests if removed expired stocks are subtracted from the value of a user's stocks.
     @Test
     public void testExpiredStocksAreExcludedFromTotalValue() {
         Date pastDate = new Date(System.currentTimeMillis() - 86400000);

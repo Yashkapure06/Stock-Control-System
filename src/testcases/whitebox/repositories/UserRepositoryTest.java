@@ -26,15 +26,6 @@ class UserRepositoryTest {
         
     }
 
-//    @Test
-//    void testAddUser() {
-//        User user = new User("test@example.com", "TestUser", "password123");
-//        userRepository.saveUser(user);
-//        Optional<User> fetchedUser = userRepository.findUserByEmail("test@example.com");
-//        assertTrue(fetchedUser.isPresent());
-//        assertEquals("TestUser", fetchedUser.get().getUsername());
-//    }
-
     @Test
     void testUserDoesNotExist() {
         Optional<User> user = userRepository.findUserByEmail("nonexistent@example.com");

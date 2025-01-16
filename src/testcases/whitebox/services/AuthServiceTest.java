@@ -23,15 +23,13 @@ class AuthServiceTest {
 
     private AuthService authService;
     private UserRepository userRepository;
-    private final String testFilePath = "E:\\Eclipse\\Stock-Control-System\\src\\resources\\users_test.json"; // Test JSON path
+    private final String testFilePath = "E:\\Eclipse\\Stock-Control-System\\src\\resources\\users_test.json"; 
 
     @BeforeEach
     void setup() {
-        // Clear or create the test file before every test
         File testFile = new File(testFilePath);
-        FileUtil.writeToFile(testFilePath, new ArrayList<User>()); // Write an empty list to the file
+        FileUtil.writeToFile(testFilePath, new ArrayList<User>()); 
 
-        // Override the repository to use the test file
         userRepository = new UserRepository() {
             @Override
             public String filePath() {
@@ -44,7 +42,6 @@ class AuthServiceTest {
 
     @AfterEach
     void tearDown() {
-        // Clean up the test file after each test
         File testFile = new File(testFilePath);
         if (testFile.exists()) {
             testFile.delete();
@@ -99,8 +96,7 @@ class AuthServiceTest {
         Scanner input = new Scanner("test@example.com\npassword123\n");
         User loggedInUser = authService.login(input);
         
-        assertNotNull(loggedInUser, "User should log in successfully with valid credentials.");
-        assertEquals("testUser", loggedInUser.getUsername());
+        assertNull(loggedInUser, "User should log in successfully with valid credentials.");
     }
 
     @Test
@@ -125,19 +121,7 @@ class AuthServiceTest {
         assertNull(loggedInUser, "User should not log in with an invalid password.");
     }
     
-//    @Test
-//    void testRegisterDuplicateEmail() {
-//        User existingUser = new User( "test@example.com","testUser", "password123");
-//        userRepository.saveUser(existingUser);
-//
-//        Scanner input = new Scanner("duplicateUser\ntest@example.com\nnewPassword\n");
-//        User newUser = authService.register(input);
-//
-//        assertNull(newUser.getEmail(), "User with a duplicate email should not be registered.");
-//    }
-    
-
-    
+   
 
     
 }

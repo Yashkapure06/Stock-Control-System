@@ -19,7 +19,7 @@ public class JsonUtilRandomTest {
 
     @BeforeEach
     public void setUp() throws IOException {
-        // Ensure the test file is clean before each test
+        
         File file = new File(TEMP_FILE_PATH);
         if (file.exists()) {
             file.delete();
@@ -36,7 +36,7 @@ public class JsonUtilRandomTest {
     @Test
     public void testReadFromFile_ValidJson() throws IOException {
         String jsonContent = "[{\"name\":\"John\",\"age\":30},{\"name\":\"Jane\",\"age\":25}]";
-        Files.write(new File(TEMP_FILE_PATH).toPath(), jsonContent.getBytes()); // Alternative to writeString
+        Files.write(new File(TEMP_FILE_PATH).toPath(), jsonContent.getBytes()); 
 
         List<TestModel> result = FileUtil.readFromFile(TEMP_FILE_PATH, TestModel.class);
         assertEquals(2, result.size());
@@ -48,8 +48,8 @@ public class JsonUtilRandomTest {
 
     @Test
     public void testReadFromFile_InvalidJson() throws IOException {
-        String invalidJsonContent = "[{\"name\":\"John\",\"age\":30,}"; // Invalid JSON
-        Files.write(new File(TEMP_FILE_PATH).toPath(), invalidJsonContent.getBytes()); // Alternative to writeString
+        String invalidJsonContent = "[{\"name\":\"John\",\"age\":30,}"; 
+        Files.write(new File(TEMP_FILE_PATH).toPath(), invalidJsonContent.getBytes()); 
 
         assertThrows(RuntimeException.class, () -> {
             FileUtil.readFromFile(TEMP_FILE_PATH, TestModel.class);
@@ -86,7 +86,6 @@ public class JsonUtilRandomTest {
         assertTrue(file.length() > 0);
     }
 
-    // Test model class
     public static class TestModel {
         private String name;
         private int age;

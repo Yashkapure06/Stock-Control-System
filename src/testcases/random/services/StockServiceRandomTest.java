@@ -18,7 +18,7 @@ public class StockServiceRandomTest {
 
     @BeforeEach
     public void setUp() {
-        stockService = new StockService(); // Initialize StockService
+        stockService = new StockService();
     }
 
     private Date parseDate(String dateString) {
@@ -32,7 +32,7 @@ public class StockServiceRandomTest {
 
     @Test
     public void testGetStocksForUser_NoStocks() {
-        // Test case: Retrieve stocks for a user with no stocks added
+        
         List<Stock> stocks = stockService.getStocksForUser("unknown_user");
         assertTrue(stocks.isEmpty(), "Stocks list should be empty for unknown user.");
     }
@@ -43,7 +43,6 @@ public class StockServiceRandomTest {
 
     @Test
     public void testRemoveStocksExpiringToday() {
-        // Test case: Remove stocks expiring today
         Stock expiringToday = new Stock("EXP_TODAY", 15, 100.0, "Daily", new Date());
         Stock validStock = new Stock("AAPL", 10, 150.0, "Technology", parseDate("2025-01-25"));
 
@@ -53,13 +52,11 @@ public class StockServiceRandomTest {
         stockService.removeExpiredStocks("testuser");
 
         List<Stock> stocks = stockService.getStocksForUser("testuser");
-//        assertEquals(1, stocks.size(), "Only stocks expiring after today should remain.");
-//        assertEquals("AAPL", stocks.get(0).getName(), "Valid stock name should match.");
-    }
+ }
 
     @Test
     public void testStocksNotExpiring() {
-        // Test case: Ensure non-expired stocks are not removed
+        
         Stock stock1 = new Stock("AAPL", 10, 150.0, "Technology", parseDate("2025-01-25"));
         Stock stock2 = new Stock("GOOGL", 2, 2800.0, "Technology", parseDate("2025-02-25"));
 

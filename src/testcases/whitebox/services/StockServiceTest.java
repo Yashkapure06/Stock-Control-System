@@ -1,65 +1,3 @@
-//package testcases.whitebox.services;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//import java.util.List;
-//
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//
-//import models.Stock;
-//import models.UserStocks;
-//import services.StockService;
-//
-//class StockServiceTest {
-//
-//    private StockService stockService;
-//
-//    @BeforeEach
-//    void setup() {
-//        stockService = new StockService();
-//    }
-//
-//    @Test
-//    void testAddStockForNewUser() {
-//        Stock newStock = new Stock("StockA", 10, 100.0, "CategoryA");
-//
-//        // Add stock for a new user
-//        stockService.addStockForUser("newUser", newStock);
-//
-//        // Verify that the userStock was created and the stock was added
-//        List<Stock> userStocks = stockService.getStocksForUser("newUser");
-//        assertEquals(1, userStocks.size(), "User should have one stock.");
-//        assertEquals("StockA", userStocks.get(0).getName(), "Stock name should match.");
-//        assertEquals("CategoryA", userStocks.get(0).getCategory(), "Stock category should match.");
-//        assertEquals(10, userStocks.get(0).getQuantity(), "Stock quantity should match.");
-//    }
-//
-//    @Test
-//    void testRemoveStockForUser() {
-//        Stock newStock = new Stock("StockA", 10, 100.0, "CategoryA");
-//        stockService.addStockForUser("testUser", newStock);
-//        stockService.removeStockForUser("testUser", "StockA");
-//
-//        List<Stock> stocks = stockService.getStocksForUser("testUser");
-//        assertEquals("No stocks available.", "No stocks available.");
-//    }
-//
-//    @Test    
-//    void testCalculateTotalInventoryValue() {
-//        stockService.addStockForUser("testUser", new Stock("StockA", 10, 100.0, "CategoryA"));
-//        stockService.addStockForUser("testUser", new Stock("StockB", 5, 200.0, "CategoryB"));
-//
-//        double totalValue = stockService.calculateTotalValueForUser("testUser");
-//        assertEquals(2000.0, totalValue, "Total inventory value should be calculated correctly.");
-//    }
-//
-//    @Test
-//    void testGetStocksForNonExistingUser() {
-//        List<Stock> stocks = stockService.getStocksForUser("nonExistentUser");
-//        assertTrue(stocks.isEmpty(), "No stocks should be returned for a non-existing user.");
-//    }
-//}
 package testcases.whitebox.services;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -85,37 +23,20 @@ class StockServiceTest {
 
     @Test
     void testAddStockForNewUser() {
-        // Create an expiry date for the stock
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, 10); // 10 days from today
+        calendar.add(Calendar.DATE, 10); 
         Date expiryDate = calendar.getTime();
 
         Stock newStock = new Stock("StockA", 10, 100.0, "CategoryA", expiryDate);
 
-        // Add stock for a new user
         stockService.addStockForUser("newUser", newStock);
 
-        // Verify that the userStock was created and the stock was added
         List<Stock> userStocks = stockService.getStocksForUser("newUser");
         assertEquals(1, userStocks.size(), "User should have one stock.");
         assertEquals("StockA", userStocks.get(0).getName(), "Stock name should match.");
         assertEquals("CategoryA", userStocks.get(0).getCategory(), "Stock category should match.");
         assertEquals(10, userStocks.get(0).getQuantity(), "Stock quantity should match.");
     }
-
-//    @Test
-//    void testRemoveStockForUser() {
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.add(Calendar.DATE, 5); // 5 days from today
-//        Date expiryDate = calendar.getTime();
-//
-//        Stock newStock = new Stock("StockA", 10, 100.0, "CategoryA", expiryDate);
-//        stockService.addStockForUser("testUser", newStock);
-//        stockService.removeStockForUser("testUser", "StockA");
-//
-//        List<Stock> stocks = stockService.getStocksForUser("testUser");
-//        assertTrue(stocks.isEmpty(), "Stocks should be empty after removal.");
-//    }
 
     @Test    
     void testCalculateTotalInventoryValue() {
@@ -130,7 +51,7 @@ class StockServiceTest {
         stockService.addStockForUser("testUser", new Stock("StockB", 5, 200.0, "CategoryB", expiryDate2));
 
         double totalValue = stockService.calculateTotalValueForUser("testUser");
-//        assertEquals(2000.0, totalValue, "Total inventory value should be calculated correctly.");
+
         assertTrue(totalValue == 2000.0, "Total inventory value should be calculated correctly.");
     }
 
@@ -156,15 +77,12 @@ class StockServiceTest {
         StockService stockService = new StockService();
         String username = "test_user";
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, 7); // 7 days from today
+        calendar.add(Calendar.DATE, 7);
         Date expiryDate1 = calendar.getTime();
-        // Setup: Add a stock for testing
         stockService.addStockForUser(username, new Stock("Apple", 10, 150.0, "Tech", expiryDate1));
 
-        // Act
         List<Stock> foundStocks = stockService.searchStocksByName(username, "Apple");
 
-        // Assert
         assertFalse(foundStocks.isEmpty());
         assertEquals("Apple", foundStocks.get(0).getName());
     }
@@ -174,16 +92,13 @@ class StockServiceTest {
         StockService stockService = new StockService();
         String username = "test_user";
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, 7); // 7 days from today
+        calendar.add(Calendar.DATE, 7); 
         Date expiryDate1 = calendar.getTime();
-        // Setup: Add stocks
         stockService.addStockForUser(username, new Stock("Apple", 10, 150.0, "Tech", expiryDate1));
         stockService.addStockForUser(username, new Stock("Microsoft", 5, 200.0, "Tech", expiryDate1));
 
-        // Act: Remove stock
         stockService.removeStockForUser(username, "Apple");
 
-        // Assert
         List<Stock> remainingStocks = stockService.getStocksForUser(username);
         assertEquals("Microsoft", remainingStocks.get(0).getName());
     }
@@ -193,16 +108,14 @@ class StockServiceTest {
         StockService stockService = new StockService();
         String username = "test_user";
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, 7); // 7 days from today
+        calendar.add(Calendar.DATE, 7); 
         Date expiryDate1 = calendar.getTime();
-        // Setup: Add stocks
+        
         stockService.addStockForUser(username, new Stock("Apple", 10, 150.0, "Tech", expiryDate1));
         stockService.addStockForUser(username, new Stock("Banana", 20, 50.0, "Food", expiryDate1));
 
-        // Act
         List<Stock> techStocks = stockService.filterStocksByCategory(username, "Tech");
 
-        // Assert
         assertEquals("Microsoft", techStocks.get(0).getName());
     }
 

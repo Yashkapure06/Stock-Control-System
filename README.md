@@ -1,6 +1,14 @@
-# Stock Control System
+# Stock Control System - Group no - 13
 
 The **Stock Control System** is a Java-based application designed to manage stock inventory efficiently. It includes features such as user authentication, stock addition/removal, searching and filtering stocks, inventory value calculation, and management of expired stocks.
+
+## Contributors
+
+- Yash Kapure
+- Harshwardhan Sonawane
+- Alex Sibbick
+- Gabrial Knight
+- Shreyash Wankhade
 
 ## Project Structure
 
@@ -52,6 +60,10 @@ Stock-Control-System
 - **Login**: Authenticate with a username and password.
 - **Register**: Create a new account.
 
+### Data Persistence
+
+- Users are stored in a JSON file (`users.json`) located in the `resources` directory.
+
 ### Stock Management
 
 - **Add Stock**: Add a new stock item with details like name, quantity, price, category, and expiry date.
@@ -71,7 +83,6 @@ Stock-Control-System
 ### Testing
 
 - **Blackbox Testing**: Test cases for repository and service functionality without internal knowledge of implementation.
-- **Random Testing**: Test cases with randomized inputs to ensure robustness.
 - **Whitebox Testing**: Test cases designed with internal logic in mind.
 
 ## File Descriptions
@@ -89,6 +100,7 @@ Stock-Control-System
 
 ### Resources
 
+- **`users.json`**: JSON file used to store users login credentials
 - **`stocks.json`**: JSON file used to store user-specific stock data.
 
 ### Services
@@ -167,7 +179,6 @@ Stock-Control-System
 ### Test Cases
 
 - **`blackbox`**: Tests focusing on application outputs given specific inputs.
-- **`random`**: Tests using randomized data to validate application robustness.
 - **`whitebox`**: Tests designed based on internal logic of methods.
 - **Utilities**: Helper methods for testing.
 
@@ -199,13 +210,6 @@ Stock-Control-System
 2. Open the desired test file (e.g., `repositories` or `services`).
 3. Run the test using JUnit 5 in your IDE.
 4. Verify that outputs match expected results.
-
-#### Random Testing
-
-1. Navigate to the `testcases.random` directory.
-2. Open a test file (e.g., `AuthServiceRandomTest.java` or `StockServiceRandomTest.java`).
-3. Execute the test cases using JUnit 5.
-4. Review console logs to ensure robustness of the application under random inputs.
 
 #### Whitebox Testing
 
@@ -245,21 +249,9 @@ Stock-Control-System
 - **View Stock:**
 
   ```
-  +----------------+----------+----------+---------------+
-  | Name           | Quantity | Price    | Category      |
-  +----------------+----------+----------+---------------+
-  | Apple          | 50       | £1.50    | Fruits        |
-  +----------------+----------+----------+---------------+
+  +----------------+----------+----------+---------------+---------------+
+  | Name           | Quantity | Price    | Category      |Expiry Date    |
+  +----------------+----------+----------+---------------+---------------+
+  | Apple          | 50       | £1.50    | Fruits        | Sat Jan 25    |
+  +----------------+----------+----------+---------------+---------------+
   ```
-
-## Authors
-
-- Harshwardhan
-- Yash
-- Alex
-- Gabrial
-- Shreyash
-
----
-
-For further queries, please contact the contributors or refer to the **README.md** file.

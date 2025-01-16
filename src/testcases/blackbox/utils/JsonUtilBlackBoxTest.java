@@ -22,10 +22,8 @@ class JsonUtilBlackBoxTest {
 
         String expectedJson = "{\"email\":\"test@example.com\",\"username\":\"TestUser\",\"isActive\":true}";
 
-        // Act
         String actualJson = objectMapper.writeValueAsString(input);
 
-        // Assert
         assertEquals(objectMapper.readTree(expectedJson), objectMapper.readTree(actualJson), 
                 "Serialized JSON should match the expected JSON structure.");
     }
@@ -39,50 +37,41 @@ class JsonUtilBlackBoxTest {
         expectedOutput.put("username", "TestUser");
         expectedOutput.put("isActive", true);
 
-        // Act
+        
         @SuppressWarnings("unchecked")
         Map<String, Object> actualOutput = objectMapper.readValue(json, Map.class);
 
-        // Assert
         assertEquals(expectedOutput, actualOutput, 
                 "Deserialized map should match the expected map.");
     }
 
     @Test
     void testSerializeEmptyMap() throws Exception {
-        // Arrange
         Map<String, Object> input = new HashMap<>();
         String expectedJson = "{}";
 
-        // Act
         String actualJson = objectMapper.writeValueAsString(input);
 
-        // Assert
         assertEquals(objectMapper.readTree(expectedJson), objectMapper.readTree(actualJson), 
                 "Serialized JSON for an empty map should match the expected JSON structure.");
     }
 
     @Test
     void testDeserializeEmptyJson() throws Exception {
-        // Arrange
         String json = "{}";
         Map<String, Object> expectedOutput = new HashMap<>();
 
-        // Act
         @SuppressWarnings("unchecked")
         Map<String, Object> actualOutput = objectMapper.readValue(json, Map.class);
 
-        // Assert
         assertEquals(expectedOutput, actualOutput, 
                 "Deserialized map for empty JSON should match the expected empty map.");
     }
 
     @Test
     void testDeserializeInvalidJson() {
-        // Arrange
         String invalidJson = "{invalidJson}";
 
-        // Act & Assert
         assertThrows(Exception.class, () -> {
             objectMapper.readValue(invalidJson, Map.class);
         }, "Invalid JSON should throw an exception.");

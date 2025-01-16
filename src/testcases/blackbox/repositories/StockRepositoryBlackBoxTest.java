@@ -15,7 +15,6 @@ import repositories.StockRepository;
 
 public class StockRepositoryBlackBoxTest {
 
-	//Tests Adding stock to the repository.
     @Test
     public void testAddStock() {
         StockRepository repository = new StockRepository();
@@ -30,7 +29,6 @@ public class StockRepositoryBlackBoxTest {
         assertEquals(expiryDate, allStocks.get(0).getExpiryDate());
     }
 
-    //Tests finding stock by name.
     @Test
     public void testFindStockByName() {
         StockRepository repository = new StockRepository();
@@ -48,7 +46,6 @@ public class StockRepositoryBlackBoxTest {
         assertFalse(notFoundStock.isPresent());
     }
     
-    //Tests finding stock by category.
     @Test
     public void testFindStocksByCategory() {
         StockRepository repository = new StockRepository();
@@ -77,7 +74,6 @@ public class StockRepositoryBlackBoxTest {
         assertTrue(nonExistentCategory.isEmpty());
     }
     
-    //Tests removing stock from the repository.
     @Test
     public void testRemoveStock() {
         StockRepository repository = new StockRepository();
@@ -93,7 +89,6 @@ public class StockRepositoryBlackBoxTest {
         assertFalse(notRemoved);
     }
     
-    //Tests the removal of expired stock.
     @Test
     public void testExpiredStocks() {
         StockRepository repository = new StockRepository();

@@ -24,13 +24,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AuthServiceBlackBoxTest {
 
 
-	// Tests the registration of a new user with a unique email. 
     @Test
     public void testRegisterNewEmail() throws IOException {
         UserRepository userRepository = new UserRepository();
         AuthService authService = new AuthService(userRepository);
 
-        // Simulate user input for registration
         Scanner input = new Scanner("newuser@example.com\nnewUser\npassword123\n");
 
         User registeredUser = authService.register(input);
@@ -39,31 +37,24 @@ public class AuthServiceBlackBoxTest {
     }
 
     private void cleanUpUserFromJson(String email) throws IOException {
-        // Path to the user JSON file (adjust if necessary)
         String usersFilePath = "src/resources/users.json";
 
-        // Initialize ObjectMapper
         ObjectMapper objectMapper = new ObjectMapper();
 
-        // Read the current user data
         File file = new File(usersFilePath);
         if (!file.exists()) {
             throw new FileNotFoundException("Users JSON file not found: " + usersFilePath);
         }
 
-        // Load existing users from JSON
         List<Map<String, Object>> users = objectMapper.readValue(file, new TypeReference<List<Map<String, Object>>>() {});
 
-        // Remove the user with the matching email
         users.removeIf(user -> email.equals(user.get("email")));
 
-        // Write updated user data back to the JSON file
         objectMapper.writeValue(file, users);
     }
 
 
 
-    //Tests the registration of a user with an existing email.
     @Test
     public void testRegisterExistingEmail() {
 
@@ -72,16 +63,13 @@ public class AuthServiceBlackBoxTest {
 
         Scanner input = new Scanner("existinguser@example.com\nexistingUser\npassword123\n");
 
-        // Register user for the first time
         authService.register(input);
 
-        // Try to register again with the same email
         input = new Scanner("existinguser@example.com\nanotherUser\npassword456\n");
         User registeredUser = authService.register(input);
         assertNull(registeredUser, "Registration should fail for existing email");
     }
 
-    //Tests the registration fields when left empty.
     @Test
     public void testRegisterEmptyFields() {
         UserRepository userRepository = new UserRepository();
@@ -101,7 +89,6 @@ public class AuthServiceBlackBoxTest {
 
     }
     
-    //Tests a successful login.
     @Test
     public void testLoginSuccessful() {
         UserRepository userRepository = new UserRepository();
@@ -117,7 +104,6 @@ public class AuthServiceBlackBoxTest {
 
     }
 
-    //Tests an unsuccessful login.
     @Test
     public void testLoginUnsuccessful() {
         UserRepository userRepository = new UserRepository();

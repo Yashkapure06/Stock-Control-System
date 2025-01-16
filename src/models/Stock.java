@@ -1,425 +1,3 @@
-////package models;
-////
-////public class Stock {
-////	private final String name;
-////    private int quantity;
-////    private final double price;
-////    private final String category;
-////    
-////	public Stock() {
-////		this.name = "";
-////		this.quantity = 0;
-////		this.price = 0.0;
-////		this.category = "";
-////	}
-////    
-////	public Stock(String name, int quantity, double price, String category) {
-////		this.name = name;
-////		this.quantity = quantity;
-////		this.price = price;
-////		this.category = category;
-////	}
-////	
-////	public String getName() { return name; }
-////    public int getQuantity() { return quantity; }
-////    public double getPrice() { return price; }
-////    public String getCategory() { return category; }
-////
-////    
-//////    remove Quantity from Stock
-////    public void removeQuantity(int quantityToRemove) {
-////        if (quantityToRemove <= quantity) {
-////            quantity -= quantityToRemove;
-////        } else {
-////            System.out.println("Not enough quantity to remove.");
-////        }
-////    }
-////    
-////    //    add Quantity to Stock
-////    public void addQuantity(int quantityToAdd) {
-////        quantity += quantityToAdd;
-////    }
-////
-////	@Override
-////	public String toString() {
-////		return "Stock [name=" + name + ", quantity=" + quantity + ", price=" + price + ", category=" + category + "]";
-////	}
-////
-////
-////}
-//
-//
-//
-//package models;
-//
-//public class Stock {
-//    private final String name;
-//    private int quantity;
-//    private double price; // Removed final to allow updates
-//    private String category; // Removed final to allow updates
-//
-//    // Default constructor
-//    public Stock() {
-//        this.name = "";
-//        this.quantity = 0;
-//        this.price = 0.0;
-//        this.category = "";
-//    }
-//
-//    // Parameterized constructor
-//    public Stock(String name, int quantity, double price, String category) {
-//        this.name = name;
-//        this.quantity = quantity;
-//        this.price = price;
-//        this.category = category;
-//    }
-//
-//    // Getters
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public int getQuantity() {
-//        return quantity;
-//    }
-//
-//    public double getPrice() {
-//        return price;
-//    }
-//
-//    public String getCategory() {
-//        return category;
-//    }
-//
-//    // Add quantity to stock
-//    public void addQuantity(int quantityToAdd) {
-//        quantity += quantityToAdd;
-//    }
-//
-//    // Remove quantity from stock
-//    public void removeQuantity(int quantityToRemove) {
-//        if (quantityToRemove <= quantity) {
-//            quantity -= quantityToRemove;
-//        } else {
-//            System.out.println("Not enough quantity to remove.");
-//        }
-//    }
-//
-//    // Setter for price
-//    public void setPrice(double price) {
-//        if (price >= 0) {
-//            this.price = price;
-//        } else {
-//            System.out.println("Price cannot be negative.");
-//        }
-//    }
-//
-//    // Setter for category
-//    public void setCategory(String category) {
-//        if (category != null && !category.isEmpty()) {
-//            this.category = category;
-//        } else {
-//            System.out.println("Category cannot be empty.");
-//        }
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Stock [name=" + name + ", quantity=" + quantity + ", price=£" + price + ", category=" + category + "]";
-//    }
-//}
-//
-//
-//package models;
-//
-//public class Stock {
-//    private final String name;
-//    private int quantity;
-//    private double price; // Removed final to allow updates
-//    private String category; // Removed final to allow updates
-//
-//    // Default constructor
-//    public Stock() {
-//        this.name = "";
-//        this.quantity = 0;
-//        this.price = 0.0;
-//        this.category = "";
-//    }
-//
-//    // Parameterized constructor
-//    public Stock(String name, int quantity, double price, String category) {
-//        this.name = name;
-//        this.quantity = quantity;
-//        this.price = price;
-//        this.category = category;
-//    }
-//
-//    // Getters
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public int getQuantity() {
-//        return quantity;
-//    }
-//
-//    public double getPrice() {
-//        return price;
-//    }
-//
-//    public String getCategory() {
-//        return category;
-//    }
-//
-//    // Add quantity to stock
-//    public void addQuantity(int quantityToAdd) {
-//        quantity += quantityToAdd;
-//    }
-//
-//    // Remove quantity from stock
-//    public void removeQuantity(int quantityToRemove) {
-//        if (quantityToRemove <= quantity) {
-//            quantity -= quantityToRemove;
-//        } else {
-//            System.out.println("Not enough quantity to remove.");
-//        }
-//    }
-//
-//    // Setter for price
-//    public void setPrice(double price) {
-//        if (price >= 0) {
-//            this.price = price;
-//        } else {
-//            System.out.println("Price cannot be negative.");
-//        }
-//    }
-//
-//    // Setter for category
-//    public void setCategory(String category) {
-//        if (category != null && !category.isEmpty()) {
-//            this.category = category;
-//        } else {
-//            System.out.println("Category cannot be empty.");
-//        }
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Stock [name=" + name + ", quantity=" + quantity + ", price=£" + price + ", category=" + category + "]";
-//    }
-//}
-
-////package models;
-////
-////public class Stock {
-////	private final String name;
-////    private int quantity;
-////    private final double price;
-////    private final String category;
-////    
-////	public Stock() {
-////		this.name = "";
-////		this.quantity = 0;
-////		this.price = 0.0;
-////		this.category = "";
-////	}
-////    
-////	public Stock(String name, int quantity, double price, String category) {
-////		this.name = name;
-////		this.quantity = quantity;
-////		this.price = price;
-////		this.category = category;
-////	}
-////	
-////	public String getName() { return name; }
-////    public int getQuantity() { return quantity; }
-////    public double getPrice() { return price; }
-////    public String getCategory() { return category; }
-////
-////    
-//////    remove Quantity from Stock
-////    public void removeQuantity(int quantityToRemove) {
-////        if (quantityToRemove <= quantity) {
-////            quantity -= quantityToRemove;
-////        } else {
-////            System.out.println("Not enough quantity to remove.");
-////        }
-////    }
-////    
-////    //    add Quantity to Stock
-////    public void addQuantity(int quantityToAdd) {
-////        quantity += quantityToAdd;
-////    }
-////
-////	@Override
-////	public String toString() {
-////		return "Stock [name=" + name + ", quantity=" + quantity + ", price=" + price + ", category=" + category + "]";
-////	}
-////
-////
-////}
-//
-//
-//
-//package models;
-//
-//public class Stock {
-//    private final String name;
-//    private int quantity;
-//    private double price; // Removed final to allow updates
-//    private String category; // Removed final to allow updates
-//
-//    // Default constructor
-//    public Stock() {
-//        this.name = "";
-//        this.quantity = 0;
-//        this.price = 0.0;
-//        this.category = "";
-//    }
-//
-//    // Parameterized constructor
-//    public Stock(String name, int quantity, double price, String category) {
-//        this.name = name;
-//        this.quantity = quantity;
-//        this.price = price;
-//        this.category = category;
-//    }
-//
-//    // Getters
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public int getQuantity() {
-//        return quantity;
-//    }
-//
-//    public double getPrice() {
-//        return price;
-//    }
-//
-//    public String getCategory() {
-//        return category;
-//    }
-//
-//    // Add quantity to stock
-//    public void addQuantity(int quantityToAdd) {
-//        quantity += quantityToAdd;
-//    }
-//
-//    // Remove quantity from stock
-//    public void removeQuantity(int quantityToRemove) {
-//        if (quantityToRemove <= quantity) {
-//            quantity -= quantityToRemove;
-//        } else {
-//            System.out.println("Not enough quantity to remove.");
-//        }
-//    }
-//
-//    // Setter for price
-//    public void setPrice(double price) {
-//        if (price >= 0) {
-//            this.price = price;
-//        } else {
-//            System.out.println("Price cannot be negative.");
-//        }
-//    }
-//
-//    // Setter for category
-//    public void setCategory(String category) {
-//        if (category != null && !category.isEmpty()) {
-//            this.category = category;
-//        } else {
-//            System.out.println("Category cannot be empty.");
-//        }
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Stock [name=" + name + ", quantity=" + quantity + ", price=Â£" + price + ", category=" + category + "]";
-//    }
-//}
-//
-//
-//package models;
-//
-//public class Stock {
-//    private final String name;
-//    private int quantity;
-//    private double price; // Removed final to allow updates
-//    private String category; // Removed final to allow updates
-//
-//    // Default constructor
-//    public Stock() {
-//        this.name = "";
-//        this.quantity = 0;
-//        this.price = 0.0;
-//        this.category = "";
-//    }
-//
-//    // Parameterized constructor
-//    public Stock(String name, int quantity, double price, String category) {
-//        this.name = name;
-//        this.quantity = quantity;
-//        this.price = price;
-//        this.category = category;
-//    }
-//
-//    // Getters
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public int getQuantity() {
-//        return quantity;
-//    }
-//
-//    public double getPrice() {
-//        return price;
-//    }
-//
-//    public String getCategory() {
-//        return category;
-//    }
-//
-//    // Add quantity to stock
-//    public void addQuantity(int quantityToAdd) {
-//        quantity += quantityToAdd;
-//    }
-//
-//    // Remove quantity from stock
-//    public void removeQuantity(int quantityToRemove) {
-//        if (quantityToRemove <= quantity) {
-//            quantity -= quantityToRemove;
-//        } else {
-//            System.out.println("Not enough quantity to remove.");
-//        }
-//    }
-//
-//    // Setter for price
-//    public void setPrice(double price) {
-//        if (price >= 0) {
-//            this.price = price;
-//        } else {
-//            System.out.println("Price cannot be negative.");
-//        }
-//    }
-//
-//    // Setter for category
-//    public void setCategory(String category) {
-//        if (category != null && !category.isEmpty()) {
-//            this.category = category;
-//        } else {
-//            System.out.println("Category cannot be empty.");
-//        }
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Stock [name=" + name + ", quantity=" + quantity + ", price=Â£" + price + ", category=" + category + "]";
-//    }
-//}
-
 package models;
 
 import java.text.SimpleDateFormat;
@@ -430,11 +8,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Stock {
     private final String name;
     private int quantity;
-    private double price; // Removed final to allow updates
-    private String category; // Removed final to allow updates
+    private double price; 
+    private String category;
     private Date expiryDate; 
 
-    // Default constructor
     public Stock() {
         this.name = "";
         this.quantity = 0;
@@ -443,7 +20,6 @@ public class Stock {
         this.expiryDate = null;
     }
 
-    // Parameterized constructor
     public Stock(String name, int quantity, double price, String category, Date expiryDate) {
         this.name = name;
         this.quantity = quantity;
@@ -452,7 +28,7 @@ public class Stock {
         this.expiryDate = expiryDate;
     }
 
-    // Getters
+    
     public String getName() {
         return name;
     }
@@ -469,12 +45,10 @@ public class Stock {
         return category;
     }
 
-    // Add quantity to stock
     public void addQuantity(int quantityToAdd) {
         quantity += quantityToAdd;
     }
 
-    // Remove quantity from stock
     public void removeQuantity(int quantityToRemove) {
         if (quantityToRemove <= quantity) {
             quantity -= quantityToRemove;
@@ -483,7 +57,6 @@ public class Stock {
         }
     }
 
-    // Setter for price
     public void setPrice(double price) {
         if (price >= 0) {
             this.price = price;
@@ -492,7 +65,6 @@ public class Stock {
         }
     }
 
-    // Setter for category
     public void setCategory(String category) {
         if (category != null && !category.isEmpty()) {
             this.category = category;
@@ -525,6 +97,6 @@ public class Stock {
         );
     }
 
-    }
-//}
+}
+
 

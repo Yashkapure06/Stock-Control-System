@@ -11,7 +11,6 @@ import org.junit.Test;
 
 public class UserRepositoryBlackBoxTest {
 
-	//Tests the retrieval of all users from the repository.
     @Test
     public void testGetAllUsers() {
         UserRepository userRepository = new UserRepository();
@@ -19,7 +18,6 @@ public class UserRepositoryBlackBoxTest {
         assertNotNull(users, "getAllUsers should not return null");
     }
 
-    //Tests saving a user to the repository.
     @Test
     public void testSaveUser() {
         UserRepository userRepository = new UserRepository();
@@ -32,7 +30,6 @@ public class UserRepositoryBlackBoxTest {
         System.out.println("saveUser test passed");
     }
     
-    //Tests finding a user by email.
     @Test
     public void testFindUserByEmail() {
         UserRepository userRepository = new UserRepository();
