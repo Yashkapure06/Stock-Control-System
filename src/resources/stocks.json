@@ -1,1 +1,1 @@
-[{"username":"testUser","stocks":[{"name":"StockB","quantity":5,"price":200.0,"category":"CategoryB"}]},{"username":"Yash Kapure","stocks":[{"name":"apple","quantity":11,"price":5.0,"category":"fruits"},{"name":"banana","quantity":12,"price":3.0,"category":"fruits"}]},{"username":"newUser","stocks":[{"name":"StockA","quantity":10,"price":100.0,"category":"CategoryA"}]}]
+[{"username":"harshwardhan","stocks":[{"name":"cheese","quantity":12,"price":1.0,"category":"dairy","expiryDate":1818025200000}]}]

@@ -2,4 +2,12 @@
   "email" : "yash@gmail.com",
   "username" : "Yash Kapure",
   "password" : "12345678"
-}]
+}, {
+  "email" : "harsh@gmail.com",
+  "username" : "harshwardhan",
+  "password" : "12345678"
+}, {
+  "email" : "shreyas@gmail.com",
+  "username" : "shreyas",
+  "password" : "12345678"
+} ]
