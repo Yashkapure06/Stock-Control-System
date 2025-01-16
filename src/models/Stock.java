@@ -1,160 +1,100 @@
 package models;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Stock {
-
-    private String itemId;
-    private String itemName;
+    private final String name;
     private int quantity;
-    private double price;
+    private double price; 
     private String category;
-    private String batchId;        
-    private Date expiryDate;  
-    private int minimumStock;
+    private Date expiryDate; 
 
-    // Constructor
-    public Stock(String itemId, String itemName, int quantity, double price, String category, int minimumStock, String batchId, Date expiryDate) {
-        if (quantity < 0 || price < 0 || minimumStock < 0) {
-            throw new IllegalArgumentException("Quantity, price, and minimum stock cannot be negative.");
-        }
-        this.itemId = itemId;
-        this.itemName = itemName;
+    
+    public Stock() {
+        this.name = "";
+        this.quantity = 0;
+        this.price = 0.0;
+        this.category = "";
+        this.expiryDate = null;
+    }
+
+    public Stock(String name, int quantity, double price, String category, Date expiryDate) {
+        this.name = name;
         this.quantity = quantity;
         this.price = price;
         this.category = category;
-        this.minimumStock = minimumStock;
-        this.batchId = batchId;
         this.expiryDate = expiryDate;
     }
 
-    // Getters and Setters
-    public String getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-    
-    public String getBatchId() {
-        return batchId;
-    }
-
-    public void setBatchId(String batchId) {
-        this.batchId = batchId;
-    }
-
-    public Date getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(Date expiryDate) {
-        this.expiryDate = expiryDate;
+    public String getName() {
+        return name;
     }
 
     public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        if (quantity < 0) {
-            throw new IllegalArgumentException("Quantity cannot be negative.");
-        }
-        this.quantity = quantity;
-    }
-
     public double getPrice() {
         return price;
-    }
-
-    public void setPrice(double price) {
-        if (price < 0) {
-            throw new IllegalArgumentException("Price cannot be negative.");
-        }
-        this.price = price;
     }
 
     public String getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public int getMinimumStock() {
-        return minimumStock;
-    }
-
-    public void setMinimumStock(int minimumStock) {
-        if (minimumStock < 0) {
-            throw new IllegalArgumentException("Minimum stock cannot be negative.");
-        }
-        this.minimumStock = minimumStock;
-    }
-
-    // Add quantity to stock
     public void addQuantity(int quantityToAdd) {
-        if (quantityToAdd < 0) {
-            throw new IllegalArgumentException("Quantity to add cannot be negative.");
-        }
-        this.quantity += quantityToAdd;
+        quantity += quantityToAdd;
     }
 
-    // Remove quantity from stock
     public void removeQuantity(int quantityToRemove) {
-        if (quantityToRemove < 0) {
-            throw new IllegalArgumentException("Quantity to remove cannot be negative.");
+        if (quantityToRemove <= quantity) {
+            quantity -= quantityToRemove;
+        } else {
+            System.out.println("Not enough quantity to remove.");
         }
-        if (quantityToRemove > this.quantity) {
-            throw new IllegalArgumentException("Cannot remove more than available quantity.");
-        }
-        this.quantity -= quantityToRemove;
     }
 
-    // Override toString
+    public void setPrice(double price) {
+        if (price >= 0) {
+            this.price = price;
+        } else {
+            System.out.println("Price cannot be negative.");
+        }
+    }
+
+    public void setCategory(String category) {
+        if (category != null && !category.isEmpty()) {
+            this.category = category;
+        } else {
+            System.out.println("Category cannot be empty.");
+        }
+    }
+    
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    @JsonIgnore
+    public boolean isExpired() {
+        return expiryDate != null && expiryDate.before(new Date());
+    }
+
     @Override
     public String toString() {
-        return "Stock{" +
-                "itemId='" + itemId + '\'' +
-                ", itemName='" + itemName + '\'' +
-                ", quantity=" + quantity +
-                ", price=" + price +
-                ", category='" + category + '\'' +
-                ", minimumStock=" + minimumStock +
-                ", batchId='" + batchId + '\'' +
-                ", expiryDate=" + expiryDate +
-                '}';
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd"); // Format for "Fri Nov 15"
+        String formattedExpiryDate = expiryDate != null ? dateFormat.format(expiryDate) : "N/A";
+
+        return String.format(
+            "+----------------+----------+----------+---------------+------------+\n" +
+            "| Name           | Quantity | Price    | Category      | Expiry Date|\n" +
+            "+----------------+----------+----------+---------------+------------+\n" +
+            "| %-14s | %-8d | £%-7.2f | %-13s | %-10s |\n" +
+            "+----------------+----------+----------+---------------+------------+",
+            name, quantity, price, category, formattedExpiryDate
+        );
     }
 
-    // Override equals and hashCode
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Stock stock = (Stock) o;
-        return quantity == stock.quantity &&
-                Double.compare(stock.price, price) == 0 &&
-                minimumStock == stock.minimumStock &&
-                Objects.equals(itemId, stock.itemId) &&
-                Objects.equals(itemName, stock.itemName) &&
-                Objects.equals(category, stock.category) &&
-                Objects.equals(batchId, stock.batchId) &&
-                Objects.equals(expiryDate, stock.expiryDate);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(itemId, itemName, quantity, price, category, minimumStock, batchId, expiryDate);
-    }
-}
