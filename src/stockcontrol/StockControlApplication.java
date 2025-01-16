@@ -105,7 +105,7 @@ public class StockControlApplication {
                                                          dateFormat.format(stock.getExpiryDate()) : 
                                                          "N/A";
 
-                            System.out.printf("| %-14s | %-8d | ï¿½ %-7.2f | %-13s | %-13s |\n",
+                            System.out.printf("| %-14s | %-8d | £ %-7.2f | %-13s | %-13s |\n",
                                               stock.getName(), stock.getQuantity(), stock.getPrice(), 
                                               stock.getCategory(), formattedExpiryDate);
                         }

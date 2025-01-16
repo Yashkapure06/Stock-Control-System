@@ -12,6 +12,7 @@ public class Stock {
     private String category;
     private Date expiryDate; 
 
+    
     public Stock() {
         this.name = "";
         this.quantity = 0;
@@ -28,7 +29,6 @@ public class Stock {
         this.expiryDate = expiryDate;
     }
 
-    
     public String getName() {
         return name;
     }
@@ -97,6 +97,4 @@ public class Stock {
         );
     }
 
-}
-
-
+    }

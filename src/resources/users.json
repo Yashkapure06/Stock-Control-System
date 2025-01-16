@@ -618,4 +618,60 @@
   "email" : "test@example.com",
   "username" : "testuser",
   "password" : "password123"
+}, {
+  "email" : "test@example.com",
+  "username" : "testUser",
+  "password" : "testPassword"
+}, {
+  "email" : "test@example.com",
+  "username" : "testUser",
+  "password" : "testPassword"
+}, {
+  "email" : "test@example.com",
+  "username" : "testUser",
+  "password" : "password123"
+}, {
+  "email" : "test@example.com",
+  "username" : "testUser",
+  "password" : "password123"
+}, {
+  "email" : "test@example.com",
+  "username" : "testUser",
+  "password" : "password123"
+}, {
+  "email" : "test@example.com",
+  "username" : "existingUser",
+  "password" : "password123"
+}, {
+  "email" : "test@example.com",
+  "username" : "testuser",
+  "password" : "password123"
+}, {
+  "email" : "test@example.com",
+  "username" : "testuser",
+  "password" : "password123"
+}, {
+  "email" : "user02d8b6aa-ebec-4b25-be35-8974f4815731@example.com",
+  "username" : "psphctf",
+  "password" : "ogdpkamjttgn"
+}, {
+  "email" : "user2ef979f7-d958-4fea-bfc1-4a30b81f6e5f@example.com",
+  "username" : "ocphvivqyggzm",
+  "password" : "lxnrarujxkrvbo"
+}, {
+  "email" : "user97fee766-336f-4a57-adcb-3aeda8229387@example.com",
+  "username" : "rihyzcdpknea",
+  "password" : "sorzqipv"
+}, {
+  "email" : "test@example.com",
+  "username" : "existinguser",
+  "password" : "password"
+}, {
+  "email" : "test@example.com",
+  "username" : "testuser",
+  "password" : "password123"
+}, {
+  "email" : "test@example.com",
+  "username" : "testuser",
+  "password" : "password123"
 } ]
