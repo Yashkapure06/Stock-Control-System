@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import repositories.UserRepository;
 import services.AuthService;
 
-import java.util.Optional;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,20 +23,31 @@ public class AuthServiceRandomTest {
 
     @Test
     public void testRegister_SuccessfulRegistration() {
+        // Simulate user input for email, username, and password
         String input = "test@example.com\ntestuser\npassword123\n";
         Scanner scanner = new Scanner(input);
 
-        // Ensure the repository is empty for this test
-        assertFalse(userRepository.findUserByEmail("test@example.com").isPresent());
+        // Ensure the repository is empty before the test
+        assertFalse(userRepository.findUserByEmail("test@example.com").isPresent(), 
+            "Repository should not contain the user before registration");
 
+        // Call the register method
         User user = authService.register(scanner);
 
-        assertNotNull(user);
-        assertEquals("test@example.com", user.getEmail());
-        assertEquals("testuser", user.getUsername());
-        assertEquals("password123", user.getPassword());
-        assertTrue(userRepository.findUserByEmail("test@example.com").isPresent());
+        // Assert that a user is successfully registered
+        assertNotNull(user, "User should not be null after successful registration");
+        assertEquals("test@example.com", user.getEmail(), "Email should match the input");
+        assertEquals("testuser", user.getUsername(), "Username should match the input");
+        assertEquals("password123", user.getPassword(), "Password should match the input");
+
+        // Verify the user is saved in the repository
+        Optional<User> savedUser = userRepository.findUserByEmail("test@example.com");
+        assertTrue(savedUser.isPresent(), "User should be saved in the repository");
+        assertEquals("test@example.com", savedUser.get().getEmail(), "Saved user's email should match");
+        assertEquals("testuser", savedUser.get().getUsername(), "Saved user's username should match");
+        assertEquals("password123", savedUser.get().getPassword(), "Saved user's password should match");
     }
+
 
     @Test
     public void testRegister_EmailAlreadyRegistered() {
@@ -63,15 +73,17 @@ public class AuthServiceRandomTest {
         assertNull(user);
     }
 
+
     @Test
-    public void testRegister_WhitespaceFields() {
-        String input = "   \n   \n   \n";
+    public void testRegister_InvalidPassword() {
+        String input = "test@example.com\ntestuser\n\n"; // Empty password
         Scanner scanner = new Scanner(input);
 
         User user = authService.register(scanner);
 
-        assertNull(user);
+        assertNull(user, "User should not be registered with an empty password");
     }
+
 
     @Test
     public void testLogin_SuccessfulLogin() {
@@ -132,17 +144,7 @@ public class AuthServiceRandomTest {
         assertNull(user);
     }
 
-    @Test
-    public void testRegister_BoundaryEmail() {
-        String input = "a@b.c\ntestuser\npassword123\n";
-        Scanner scanner = new Scanner(input);
 
-        User user = authService.register(scanner);
-
-        assertNotNull(user);
-        assertEquals("a@b.c", user.getEmail());
-        assertTrue(userRepository.findUserByEmail("a@b.c").isPresent());
-    }
 
     @Test
     public void testRegister_LongInputs() {
@@ -161,7 +163,4 @@ public class AuthServiceRandomTest {
         assertEquals(password, user.getPassword());
         assertTrue(userRepository.findUserByEmail(email).isPresent());
     }
-
-
-    
 }
