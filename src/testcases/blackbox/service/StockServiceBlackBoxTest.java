@@ -19,8 +19,11 @@ public class StockServiceBlackBoxTest {
 
     private StockService stockService;
 
-    // Path to the stocks.json file
-    private static final String STOCKS_FILE = "D:\\Repositories\\StockNew\\Stock-Control-System\\src\\resources\\stocks.json";
+    // Path to the stocks.json file yash path
+    private static final String STOCKS_FILE = "C:\\Users\\acer\\eclipse-workspace\\Stock-Control-System\\src\\resources\\stocks.json";
+
+    // gabrial path
+//    private static final String STOCKS_FILE = "D:\\Repositories\\StockNew\\Stock-Control-System\\src\\resources\\stocks.json";
 
     @Before
     public void setup() throws IOException {

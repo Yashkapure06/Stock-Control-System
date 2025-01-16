@@ -398,7 +398,6 @@ public class StockService {
                 return stocks;
             }
         }
-        System.out.println("No stocks available."); // **May confuse users as "no stocks" is printed in both cases.**
         return new ArrayList<>();
     }
 
@@ -480,7 +479,7 @@ public class StockService {
 
         if (userStock != null) {
             List<Stock> stocks = userStock.getStocks();
-            System.out.println("Before removal: " + stocks); // Debugging
+            System.out.println("Before removal:\n " + stocks); // Debugging
             stocks.removeIf(Stock::isExpired); // Remove stocks where isExpired() returns true
             System.out.println("After removal: " + stocks); // Debugging
             saveAllUserStocks();
@@ -533,6 +532,7 @@ public class StockService {
                 break;
         }
     }
+    
       public void updateStock(Scanner input, String username) {
         List<Stock> userStocks = getStocksForUser(username);
 

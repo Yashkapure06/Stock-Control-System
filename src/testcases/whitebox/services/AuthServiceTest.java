@@ -50,6 +50,47 @@ class AuthServiceTest {
             testFile.delete();
         }
     }
+    
+    
+   
+
+    @Test
+    void testRegisterWithDuplicateEmail() {
+        User existingUser = new User("test@example.com", "existingUser", "password123");
+        userRepository.saveUser(existingUser);
+
+        Scanner input = new Scanner("test@example.com\nduplicateUser\nnewPassword\n");
+        User registeredUser = authService.register(input);
+
+        assertNull(registeredUser, "User with a duplicate email should not be registered.");
+    }
+
+    @Test
+    void testRegisterWithEmptyEmail() {
+        Scanner input = new Scanner("\nusername\npassword123\n");
+        User registeredUser = authService.register(input);
+
+        assertNull(registeredUser, "User should not be registered with an empty email.");
+    }
+
+    @Test
+    void testRegisterWithEmptyUsername() {
+        Scanner input = new Scanner("test@example.com\n\npassword123\n");
+        User registeredUser = authService.register(input);
+
+        assertNull(registeredUser, "User should not be registered with an empty username.");
+    }
+
+    @Test
+    void testRegisterWithEmptyPassword() {
+        Scanner input = new Scanner("test@example.com\ntestUser\n\n");
+        User registeredUser = authService.register(input);
+
+        assertNull(registeredUser, "User should not be registered with an empty password.");
+    }
+
+    
+    
     @Test
     void testLoginWithValidCredentials() {
         User user = new User("test@example.com", "testUser", "password123");

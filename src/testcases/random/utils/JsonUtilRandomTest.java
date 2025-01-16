@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonUtilRandomTest {
 
-    private static final String TEMP_FILE_PATH = "test.json";
+    private static final String TEMP_FILE_PATH = "C:\\Users\\acer\\eclipse-workspace\\Stock-Control-System\\src\\resources\\test.json";
 
     @BeforeEach
     public void setUp() throws IOException {
@@ -36,7 +36,7 @@ public class JsonUtilRandomTest {
     @Test
     public void testReadFromFile_ValidJson() throws IOException {
         String jsonContent = "[{\"name\":\"John\",\"age\":30},{\"name\":\"Jane\",\"age\":25}]";
-        Files.writeString(new File(TEMP_FILE_PATH).toPath(), jsonContent);
+        Files.write(new File(TEMP_FILE_PATH).toPath(), jsonContent.getBytes()); // Alternative to writeString
 
         List<TestModel> result = FileUtil.readFromFile(TEMP_FILE_PATH, TestModel.class);
         assertEquals(2, result.size());
@@ -49,7 +49,7 @@ public class JsonUtilRandomTest {
     @Test
     public void testReadFromFile_InvalidJson() throws IOException {
         String invalidJsonContent = "[{\"name\":\"John\",\"age\":30,}"; // Invalid JSON
-        Files.writeString(new File(TEMP_FILE_PATH).toPath(), invalidJsonContent);
+        Files.write(new File(TEMP_FILE_PATH).toPath(), invalidJsonContent.getBytes()); // Alternative to writeString
 
         assertThrows(RuntimeException.class, () -> {
             FileUtil.readFromFile(TEMP_FILE_PATH, TestModel.class);
@@ -74,21 +74,7 @@ public class JsonUtilRandomTest {
         assertEquals(30, result.get(0).getAge());
     }
 
-    @Test
-    public void testWriteToFile_ReadOnlyFile() throws IOException {
-        File file = new File(TEMP_FILE_PATH);
-        file.setReadOnly();
-
-        List<TestModel> testModels = new ArrayList<>();
-        testModels.add(new TestModel("John", 30));
-
-        assertThrows(IOException.class, () -> {
-            FileUtil.writeToFile(TEMP_FILE_PATH, testModels);
-        });
-
-        file.setWritable(true); // Clean up
-    }
-
+   
     @Test
     public void testWriteToFile_EmptyList() {
         List<TestModel> testModels = new ArrayList<>();

@@ -84,7 +84,7 @@
 //
 //                case 4:
 //                    double totalValue = stockService.calculateTotalValueForUser(username);
-//                    System.out.printf("Total inventory value: £%.2f\n", totalValue);
+//                    System.out.printf("Total inventory value: ï¿½%.2f\n", totalValue);
 //                    break;
 //                case 5:
 //                	stockService.handleSearchOrFilter(input, stockService, username);
@@ -222,22 +222,29 @@ public class StockControlApplication {
                     if (stocks.isEmpty()) {
                         System.out.println("No stocks available.");
                     } else {
-                        System.out.println("+----------------+----------+----------+---------------+");
-                        System.out.println("| Name           | Quantity | Price    | Category      |");
-                        System.out.println("+----------------+----------+----------+---------------+");
+                        System.out.println("+----------------+----------+----------+---------------+---------------+");
+                        System.out.println("| Name           | Quantity | Price    | Category      | Expiry Date   |");
+                        System.out.println("+----------------+----------+----------+---------------+---------------+");
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd"); // Format for "Fri Nov 15"
+                        
                         for (Stock stock : stocks) {
-                            System.out.printf("| %-14s | %-8d | £%-7.2f | %-13s |\n",
-                                              stock.getName(), stock.getQuantity(), stock.getPrice(), stock.getCategory());
+                            String formattedExpiryDate = stock.getExpiryDate() != null ? 
+                                                         dateFormat.format(stock.getExpiryDate()) : 
+                                                         "N/A";
+
+                            System.out.printf("| %-14s | %-8d | £ %-7.2f | %-13s | %-13s |\n",
+                                              stock.getName(), stock.getQuantity(), stock.getPrice(), 
+                                              stock.getCategory(), formattedExpiryDate);
                         }
-                        System.out.println("+----------------+----------+----------+---------------+");
+
+                        System.out.println("+----------------+----------+----------+---------------+---------------+");
                     }
                     break;
 
-                    
-
                 case 4:
                     double totalValue = stockService.calculateTotalValueForUser(username);
-                    System.out.printf("Total inventory value: £%.2f\n", totalValue);
+                    System.out.printf("Total inventory value: £ %.2f\n", totalValue);
                     break;
                 case 5:
                 	stockService.handleSearchOrFilter(input, stockService, username);

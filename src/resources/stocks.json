@@ -1,1 +1,14 @@
-[{"username":"harshwardhan","stocks":[{"name":"cheese","quantity":12,"price":1.0,"category":"dairy","expiryDate":1818025200000}]}]
+[
+  {
+    "username": "harshwardhan",
+    "stocks": [
+      {
+        "name": "cheese",
+        "quantity": 12,
+        "price": 1.0,
+        "category": "dairy",
+        "expiryDate": 1818025200000
+      }
+    ]
+  }
+]

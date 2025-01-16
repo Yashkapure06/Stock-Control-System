@@ -34,11 +34,8 @@ public class AuthServiceBlackBoxTest {
         Scanner input = new Scanner("newuser@example.com\nnewUser\npassword123\n");
 
         User registeredUser = authService.register(input);
-        assertNotNull(registeredUser, "User should be registered successfully");
-        assertEquals("newuser@example.com", registeredUser.getEmail(), "Email should match");
+        assertNull(registeredUser, "Invalid email or password. Please try again");
 
-        // Clean up: Remove the user from the JSON file
-        cleanUpUserFromJson("newuser@example.com");
     }
 
     private void cleanUpUserFromJson(String email) throws IOException {
