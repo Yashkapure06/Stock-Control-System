@@ -125,7 +125,7 @@
 //
 //    @Override
 //    public String toString() {
-//        return "Stock [name=" + name + ", quantity=" + quantity + ", price=£" + price + ", category=" + category + "]";
+//        return "Stock [name=" + name + ", quantity=" + quantity + ", price=Â£" + price + ", category=" + category + "]";
 //    }
 //}
 //
@@ -205,7 +205,7 @@
 //
 //    @Override
 //    public String toString() {
-//        return "Stock [name=" + name + ", quantity=" + quantity + ", price=£" + price + ", category=" + category + "]";
+//        return "Stock [name=" + name + ", quantity=" + quantity + ", price=Â£" + price + ", category=" + category + "]";
 //    }
 //}
 
@@ -299,8 +299,16 @@ public class Stock {
 
     @Override
     public String toString() {
-        return "Stock [name=" + name + ", quantity=" + quantity + ", price=£" + price + ", category=" + category +
-               ", expiryDate=" + expiryDate + "]";
+        return String.format(
+            "+----------------+----------+----------+---------------+------------+\n" +
+            "| Name           | Quantity | Price    | Category      | Expiry Date|\n" +
+            "+----------------+----------+----------+---------------+------------+\n" +
+            "| %-14s | %-8d | Â£%-7.2f | %-13s | %-10s |\n" +
+            "+----------------+----------+----------+---------------+------------+",
+            name, quantity, price, category, expiryDate
+        );
+    }
+
     }
 }
 
