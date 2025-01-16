@@ -7,7 +7,7 @@ The **Stock Control System** is a Java-based application designed to manage stoc
 - Yash Kapure
 - Harshwardhan Sonawane
 - Alex Sibbick
-- Gabrial Knight
+- Gabriel Knight
 - Shreyash Wankhade
 
 ## Project Structure
