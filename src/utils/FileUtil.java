@@ -15,7 +15,6 @@ public class FileUtil {
         try {
             File file = new File(filePath);
             if (!file.exists() || file.length() == 0) {
-                // Return an empty list if the file doesn't exist or is empty
                 return new ArrayList<>();
             }
             CollectionType listType = mapper.getTypeFactory().constructCollectionType(List.class, clazz);
@@ -30,7 +29,6 @@ public class FileUtil {
         try {
             File file = new File(filePath);
 
-            // Create parent directories if they don't exist
             if (file.getParentFile() != null && !file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }

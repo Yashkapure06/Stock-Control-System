@@ -6,7 +6,6 @@ public class UserStocks {
     private String username;
     private List<Stock> stocks;
 
-    // Default constructor for deserialization
     public UserStocks() {
     }
 
