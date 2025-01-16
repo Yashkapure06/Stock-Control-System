@@ -352,9 +352,9 @@ import java.util.stream.Collectors;
 
 public class StockService {
 //	this is yash path:
-	private static final String STOCKS_FILE  = "E:\\Eclipse\\Stock-Control-System\\src\\resources\\stocks.json";
+	//private static final String STOCKS_FILE  = "E:\\Eclipse\\Stock-Control-System\\src\\resources\\stocks.json";
 	//This is Harsh Path:
-    //private static final String STOCKS_FILE = "C:\\Users\\acer\\eclipse-workspace\\Stock-Control-System\\src\\resources\\stocks.json";
+    private static final String STOCKS_FILE = "C:\\Users\\acer\\eclipse-workspace\\Stock-Control-System\\src\\resources\\stocks.json";
 	//This is ALex Path:
 //	private static final String STOCKS_FILE = "C:\\Users\\alexa\\Stock-Control-System\\src\\resources\\stocks.json";
     private final ObjectMapper objectMapper;
