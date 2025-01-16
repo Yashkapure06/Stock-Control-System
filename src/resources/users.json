@@ -34,4 +34,44 @@
   "email" : "userd45199ce-c27e-4c9b-931e-f8e480d23846@example.com",
   "username" : "vtzykg",
   "password" : "mdxdsemubou"
+}, {
+  "email" : "userc94e7e9a-f4d6-47fe-806a-b346aa4b6912@example.com",
+  "username" : "chwjboxqzwkn",
+  "password" : "koshghptevhxx"
+}, {
+  "email" : "user9fddc376-eb55-47cc-93db-47c1e6c0a1ea@example.com",
+  "username" : "mawphwl",
+  "password" : "sgcuwsgylfdra"
+}, {
+  "email" : "useree272f8c-e959-4131-9450-701bb2b89b23@example.com",
+  "username" : "spwcr",
+  "password" : "rgfadbjo"
+}, {
+  "email" : "a@b.c",
+  "username" : "testuser",
+  "password" : "password123"
+}, {
+  "email" : "   ",
+  "username" : "   ",
+  "password" : "   "
+}, {
+  "email" : "test@example.com",
+  "username" : "testuser",
+  "password" : "password123"
+}, {
+  "email" : "test@example.com",
+  "username" : "existinguser",
+  "password" : "password"
+}, {
+  "email" : "test@example.com",
+  "username" : "testuser",
+  "password" : "password123"
+}, {
+  "email" : "longemailaddress@example.com",
+  "username" : "verylongusernameinputtest",
+  "password" : "verysecurelongpassword"
+}, {
+  "email" : "test@example.com",
+  "username" : "testuser",
+  "password" : "password123"
 } ]
