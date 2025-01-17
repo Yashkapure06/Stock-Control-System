@@ -26,7 +26,8 @@ Stock-Control-System
 │ │ └── UserRepository.java
 │ ├── resources
 │ │ └── stocks.json
-│ ├── services
+| |  |── users.json
+│ ├─ services
 │ │ ├── AuthService.java
 │ │ └── StockService.java
 │ ├── stockcontrol
@@ -102,6 +103,8 @@ Stock-Control-System
 - _UserRepository.java_: Handles user data operations.
 
 ### Resources
+
+**Note** : Make sure to Change the path of these json files according to your system.
 
 - _users.json_: JSON file used to store users login credentials
 - _stocks.json_: JSON file used to store user-specific stock data.
