@@ -13,6 +13,9 @@ The _Stock Control System_ is a Java-based application designed to manage stock 
 ## Project Structure
 
 Stock-Control-System
+
+```
+
 ├── src
 │ ├── models
 │ │ ├── Stock.java
@@ -50,6 +53,8 @@ Stock-Control-System
 ├── JUnit 5
 ├── README.md
 └── test.json
+
+```
 
 ## Features
 
