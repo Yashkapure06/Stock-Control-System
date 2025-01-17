@@ -29,4 +29,9 @@ public class UserRepository {
                 .filter(user -> user.getEmail().equalsIgnoreCase(email))
                 .findFirst();
     }
+
+	public String filePath() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
